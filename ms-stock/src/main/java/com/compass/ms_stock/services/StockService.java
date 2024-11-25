@@ -1,7 +1,7 @@
 package com.compass.ms_stock.services;
 
 import com.compass.ms_stock.entities.Product;
-import com.compass.ms_stock.exceptions.ErrorNotFoundException;
+import com.compass.ms_stock.exceptions.EntityNotFoundException;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
 import com.compass.ms_stock.repositories.StockRepository;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class StockService {
         log.info("Search all products");
         List<Product> products = repository.findAll();
         if(products.isEmpty()) {
-            throw new ErrorNotFoundException("There are not products in stock");
+            throw new EntityNotFoundException("There are not products in stock");
         }
         return products;
     }
@@ -33,7 +33,7 @@ public class StockService {
     public Product findProductById(Long id) {
         log.info("Search a product by id: " + id);
         Product product = repository.findById(id).orElseThrow(
-                () -> new ErrorNotFoundException("Product not found by this id " + id)
+                () -> new EntityNotFoundException("Product not found by this id " + id)
         );
         return product;
     }
