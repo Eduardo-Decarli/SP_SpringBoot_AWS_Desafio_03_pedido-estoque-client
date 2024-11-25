@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 @NoArgsConstructor @AllArgsConstructor
@@ -21,6 +22,7 @@ public class Client {
     private String name;
 
     @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
     @Override
