@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.compass</groupId>
-	<artifactId>ms-stock</artifactId>
+	<artifactId>ms-product</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ms-stock</name>
+	<name>ms-product</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

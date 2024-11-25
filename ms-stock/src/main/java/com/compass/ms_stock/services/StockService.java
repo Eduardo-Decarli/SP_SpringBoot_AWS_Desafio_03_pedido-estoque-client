@@ -1,0 +1,57 @@
+package com.compass.ms_stock.services;
+
+import com.compass.ms_stock.entities.Product;
+import com.compass.ms_stock.exceptions.ErrorNotFoundException;
+import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
+import com.compass.ms_stock.repositories.StockRepository;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@AllArgsConstructor
+@Service
+@Log4j2
+public class StockService {
+
+    private final StockRepository repository;
+
+    public void createProductInStock(Product product) {
+        repository.save(product);
+    }
+
+    public List<Product> findAllProducts() {
+        log.info("Search all products");
+        List<Product> products = repository.findAll();
+        if(products.isEmpty()) {
+            throw new ErrorNotFoundException("There are not products in stock");
+        }
+        return products;
+    }
+
+    public Product findProductById(Long id) {
+        log.info("Search a product by id: " + id);
+        Product product = repository.findById(id).orElseThrow(
+                () -> new ErrorNotFoundException("Product not found by this id " + id)
+        );
+        return product;
+    }
+
+    public void removeQuantityById(Integer quantity, Long id) {
+        Product product = findProductById(id);
+        product.setQuantity(product.getQuantity() - quantity);
+        if(product.getQuantity() < 0) {
+            throw new ErrorQuantityBelowZero("The quantity is not below zero");
+        }
+        log.info("Remove " + quantity + " of product by id " + id);
+        repository.save(product);
+    }
+
+    public void addQuantityById(Integer quantity, Long id) {
+        Product product = findProductById(id);
+        product.setQuantity(product.getQuantity() + quantity);
+        log.info("add " + quantity + " of product by id " + id);
+        repository.save(product);
+    }
+}
