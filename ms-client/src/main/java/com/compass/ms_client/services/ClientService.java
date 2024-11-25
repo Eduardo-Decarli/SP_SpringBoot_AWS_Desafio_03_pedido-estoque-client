@@ -4,8 +4,12 @@ import com.compass.ms_client.entities.Client;
 import com.compass.ms_client.exceptions.ErrorNotFoundException;
 import com.compass.ms_client.exceptions.ErrorNotNullViolation;
 import com.compass.ms_client.repositories.ClientRepository;
+import com.compass.ms_client.web.dto.ClientCreateDTO;
+import com.compass.ms_client.web.dto.ClientResponseDTO;
+import com.compass.ms_client.web.dto.mapper.ClientMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,12 +19,15 @@ public class ClientService {
 
     private final ClientRepository repo;
 
-    public void createClient(Client client) {
-        if(client == null) {
+    public ClientResponseDTO createClient(ClientCreateDTO create) {
+        if(create == null) {
             throw new ErrorNotNullViolation("Client can't be null");
         }
+        Client client = ClientMapper.toClient(create);
+
         log.info("creating a client");
-        repo.save(client);
+        client = repo.save(client);
+        return ClientMapper.toDto(client);
     }
 
     public Client findClientById(Long id) {
@@ -40,20 +47,24 @@ public class ClientService {
         return client;
     }
 
-    public Client updateClientById(Client client, Long id) {
+    public ClientResponseDTO updateClientById(ClientCreateDTO update, Long id) {
         Client correntClient = findClientById(id);
-        correntClient.setName(client.getName());
-        correntClient.setEmail(client.getEmail());
+        correntClient.setName(update.getName());
+        correntClient.setEmail(update.getEmail());
+
         log.info("updating a client by id");
-        return repo.save(correntClient);
+        Client client = repo.save(correntClient);
+        return ClientMapper.toDto(client);
     }
 
-    public Client updateClientByEmail(Client client, String email) {
+    public ClientResponseDTO updateClientByEmail(ClientCreateDTO update, String email) {
         Client correntClient = findClientByEmail(email);
-        correntClient.setName(client.getName());
-        correntClient.setEmail(client.getEmail());
+        correntClient.setName(update.getName());
+        correntClient.setEmail(update.getEmail());
+
         log.info("updating a client by email");
-        return repo.save(correntClient);
+        Client client = repo.save(correntClient);
+        return ClientMapper.toDto(client);
     }
 
     public void deleteClientById(Long id) {

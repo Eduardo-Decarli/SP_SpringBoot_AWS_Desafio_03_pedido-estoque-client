@@ -1,12 +1,13 @@
 package com.compass.ms_client.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
+
 import java.util.Objects;
 
 @NoArgsConstructor @AllArgsConstructor
