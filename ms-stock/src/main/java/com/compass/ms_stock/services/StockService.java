@@ -4,6 +4,9 @@ import com.compass.ms_stock.entities.Product;
 import com.compass.ms_stock.exceptions.EntityNotFoundException;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
 import com.compass.ms_stock.repositories.StockRepository;
+import com.compass.ms_stock.web.controller.dto.ProductCreateDTO;
+import com.compass.ms_stock.web.controller.dto.ProductResponseDTO;
+import com.compass.ms_stock.web.controller.dto.mapper.StockDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,17 +20,18 @@ public class StockService {
 
     private final StockRepository repository;
 
-    public void createProductInStock(Product product) {
+    public void createProductInStock(ProductCreateDTO create) {
+        Product product = StockDTO.toProduct(create);
         repository.save(product);
     }
 
-    public List<Product> findAllProducts() {
+    public List<ProductResponseDTO> findAllProducts() {
         log.info("Search all products");
         List<Product> products = repository.findAll();
         if(products.isEmpty()) {
             throw new EntityNotFoundException("There are not products in stock");
         }
-        return products;
+        return StockDTO.toListDTO(products);
     }
 
     public Product findProductById(Long id) {
