@@ -1,4 +1,4 @@
-package com.compass.ms_client.controller;
+package com.compass.ms_client.web.controller;
 
 import com.compass.ms_client.entities.Client;
 import com.compass.ms_client.services.ClientService;
