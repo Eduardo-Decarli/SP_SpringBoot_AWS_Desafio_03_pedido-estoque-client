@@ -2,6 +2,7 @@ package com.compass.ms_stock.services;
 
 import com.compass.ms_stock.entities.Product;
 import com.compass.ms_stock.exceptions.EntityNotFoundException;
+import com.compass.ms_stock.exceptions.ErrorNotNullViolation;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
 import com.compass.ms_stock.repositories.StockRepository;
 import com.compass.ms_stock.web.controller.dto.ProductCreateDTO;
@@ -18,16 +19,19 @@ import java.util.List;
 @Log4j2
 public class StockService {
 
-    private final StockRepository repository;
+    private final StockRepository repo;
 
     public void createProductInStock(ProductCreateDTO create) {
         Product product = StockDTO.toProduct(create);
-        repository.save(product);
+        if(product == null) {
+            throw new ErrorNotNullViolation("The product can't be null");
+        }
+        repo.save(product);
     }
 
     public List<ProductResponseDTO> findAllProducts() {
         log.info("Search all products");
-        List<Product> products = repository.findAll();
+        List<Product> products = repo.findAll();
         if(products.isEmpty()) {
             throw new EntityNotFoundException("There are not products in stock");
         }
@@ -36,7 +40,7 @@ public class StockService {
 
     public Product findProductById(Long id) {
         log.info("Search a product by id: " + id);
-        Product product = repository.findById(id).orElseThrow(
+        Product product = repo.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Product not found by this id " + id)
         );
         return product;
@@ -44,11 +48,21 @@ public class StockService {
 
     public Product findProductByName(String name) {
         log.info("Search a product by name: " + name);
-        Product product = repository.findProductByName(name);
+        Product product = repo.findProductByName(name);
         if(product == null){
             throw new EntityNotFoundException("Product not found by this name " + name);
         }
         return product;
+    }
+
+    public void updateProductInStock(ProductCreateDTO update, Long id) {
+        if(update == null) {
+            throw new ErrorNotNullViolation("The product to update can't be null");
+        }
+        Product product = findProductById(id);
+        product.setName(update.getName());
+        product.setQuantity(update.getQuantity());
+        repo.save(product);
     }
 
     public void removeQuantityByName(Integer quantity, String name) {
@@ -58,13 +72,13 @@ public class StockService {
             throw new ErrorQuantityBelowZero("The quantity is not below zero");
         }
         log.info("Remove " + quantity + " of product by name " + name);
-        repository.save(product);
+        repo.save(product);
     }
 
     public void addQuantityByName(Integer quantity, String name) {
         Product product = findProductByName(name);
         product.setQuantity(product.getQuantity() + quantity);
         log.info("add " + quantity + " of product by name " + name);
-        repository.save(product);
+        repo.save(product);
     }
 }
