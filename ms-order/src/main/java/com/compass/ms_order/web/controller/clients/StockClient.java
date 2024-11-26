@@ -11,7 +11,7 @@ public interface StockClient {
     @GetMapping("/quantity/remove/{quantity}/{name}")
     ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable String name);
 
-    @GetMapping("/{name}")
+    @GetMapping("/product/name/{name}")
     ResponseEntity<String> findProductByName(@PathVariable String name);
 
 }
