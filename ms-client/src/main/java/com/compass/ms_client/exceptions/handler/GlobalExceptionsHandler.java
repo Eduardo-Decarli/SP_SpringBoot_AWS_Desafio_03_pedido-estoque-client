@@ -1,8 +1,7 @@
-package com.compass.ms_stock.exceptions.handler;
+package com.compass.ms_client.exceptions.handler;
 
-import com.compass.ms_stock.exceptions.EntityNotFoundException;
-import com.compass.ms_stock.exceptions.ErrorNotNullViolation;
-import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
+import com.compass.ms_client.exceptions.ErrorNotNullViolation;
+import com.compass.ms_client.exceptions.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,15 +25,6 @@ public class GlobalExceptionsHandler {
 
     @ExceptionHandler(ErrorNotNullViolation.class)
     public ResponseEntity<ErrorMessage> errorNotNullViolation(ErrorNotNullViolation ex,
-                                                                HttpServletRequest request){
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
-    }
-
-    @ExceptionHandler(ErrorQuantityBelowZero.class)
-    public ResponseEntity<ErrorMessage> errorQuantityBelowZero(ErrorQuantityBelowZero ex,
                                                               HttpServletRequest request){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

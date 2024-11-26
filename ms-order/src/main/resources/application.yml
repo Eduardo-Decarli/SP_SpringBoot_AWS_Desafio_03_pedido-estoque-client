@@ -1,11 +1,11 @@
 spring:
   application:
-    name: ms-client
+    name: ms-order
 
 
-# JPA
+  # JPA
   datasource:
-    url: jdbc:postgresql://localhost:5432/client
+    url: jdbc:postgresql://localhost:5432/orders
     username: postgres
     password: 2004
   jpa:
@@ -17,4 +17,4 @@ spring:
       hibernate.format_sql: true
 
 server:
-  port: 8082
+  port: 8081
