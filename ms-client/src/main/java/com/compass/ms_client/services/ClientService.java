@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Log4j2
@@ -27,6 +29,14 @@ public class ClientService {
         log.info("creating a client");
         client = repo.save(client);
         return ClientMapper.toDto(client);
+    }
+
+    public List<ClientResponseDTO> findAllClients() {
+        List<Client> clients = repo.findAll();
+        if(clients.isEmpty()) {
+            throw new EntityNotFoundException("There are not users in the system");
+        }
+        return ClientMapper.toListDTO(clients);
     }
 
     public Client findClientById(Long id) {
