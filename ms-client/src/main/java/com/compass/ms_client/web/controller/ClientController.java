@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/client")
@@ -56,3 +57,4 @@ public class ClientController {
         return ResponseEntity.ok("Client deleted successfully");
     }
 }
+
