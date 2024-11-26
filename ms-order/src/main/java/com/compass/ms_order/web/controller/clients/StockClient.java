@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "stock-services", url = "http://localhost:8080/api/v1/stock")
 public interface StockClient {
 
-    @GetMapping("/quantity/remove/{quantity}/{id}")
-    ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable Long id);
+    @GetMapping("/quantity/remove/{quantity}/{name}")
+    ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable String name);
+
+    @GetMapping("/{name}")
+    ResponseEntity<String> findProductByName(@PathVariable String name);
+
 }

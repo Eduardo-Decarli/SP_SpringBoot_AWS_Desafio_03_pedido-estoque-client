@@ -8,6 +8,8 @@ import com.compass.ms_order.web.controller.clients.UserClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class OrderServices {
@@ -19,10 +21,17 @@ public class OrderServices {
     public Order createOrder(Order create) {
         userClient.consultEmailUser(create.getClientEmail());
         for(Product x : create.getProducts()) {
-            stockClient.removeQuantity(x.getQuantity(), 2L);
+            stockClient.findProductByName(x.getName());
+            stockClient.removeQuantity(x.getQuantity(), x.getName());
             x.setOrder(create);
         }
         repository.save(create);
         return create;
+    }
+
+    public List<Order> findAllOrderByEmail(String email) {
+        userClient.consultEmailUser(email);
+        List<Order> order = repository.findOrderByClientEmail(email);
+        return order;
     }
 }
