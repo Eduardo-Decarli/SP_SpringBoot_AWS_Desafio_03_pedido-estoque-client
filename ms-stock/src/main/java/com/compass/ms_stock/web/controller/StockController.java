@@ -32,21 +32,27 @@ public class StockController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/product/id/{id}")
     public ResponseEntity<ProductResponseDTO> findProductById(@PathVariable Long id) {
         Product product = stockService.findProductById(id);
         return ResponseEntity.ok(StockDTO.toDto(product));
     }
 
-    @GetMapping("/quantity/remove/{quantity}/{id}")
-    public ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable Long id) {
-        stockService.removeQuantityById(quantity, id);
+    @GetMapping("/product/name/{name}")
+    public ResponseEntity<ProductResponseDTO> findProductByName(@PathVariable String name) {
+        Product product = stockService.findProductByName(name);
+        return ResponseEntity.ok(StockDTO.toDto(product));
+    }
+
+    @GetMapping("/quantity/remove/{quantity}/{name}")
+    public ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable String name) {
+        stockService.removeQuantityByName(quantity, name);
         return ResponseEntity.ok().body("Removed quantity Sucessful");
     }
 
-    @GetMapping("/quantity/add/{quantity}/{id}")
-    public ResponseEntity<String> addQuantity(@PathVariable Integer quantity, @PathVariable Long id) {
-        stockService.addQuantityById(quantity, id);
+    @GetMapping("/quantity/add/{quantity}/{name}")
+    public ResponseEntity<String> addQuantity(@PathVariable Integer quantity, @PathVariable String name) {
+        stockService.addQuantityByName(quantity, name);
         return ResponseEntity.ok().body("add quantity Sucessful");
     }
 }

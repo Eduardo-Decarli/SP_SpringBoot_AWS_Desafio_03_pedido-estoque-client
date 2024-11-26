@@ -42,20 +42,29 @@ public class StockService {
         return product;
     }
 
-    public void removeQuantityById(Integer quantity, Long id) {
-        Product product = findProductById(id);
+    public Product findProductByName(String name) {
+        log.info("Search a product by name: " + name);
+        Product product = repository.findProductByName(name);
+        if(product == null){
+            throw new EntityNotFoundException("Product not found by this name " + name);
+        }
+        return product;
+    }
+
+    public void removeQuantityByName(Integer quantity, String name) {
+        Product product = findProductByName(name);
         product.setQuantity(product.getQuantity() - quantity);
         if(product.getQuantity() < 0) {
             throw new ErrorQuantityBelowZero("The quantity is not below zero");
         }
-        log.info("Remove " + quantity + " of product by id " + id);
+        log.info("Remove " + quantity + " of product by name " + name);
         repository.save(product);
     }
 
-    public void addQuantityById(Integer quantity, Long id) {
-        Product product = findProductById(id);
+    public void addQuantityByName(Integer quantity, String name) {
+        Product product = findProductByName(name);
         product.setQuantity(product.getQuantity() + quantity);
-        log.info("add " + quantity + " of product by id " + id);
+        log.info("add " + quantity + " of product by name " + name);
         repository.save(product);
     }
 }

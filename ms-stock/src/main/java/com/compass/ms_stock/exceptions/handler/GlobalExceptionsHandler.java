@@ -1,8 +1,8 @@
 package com.compass.ms_stock.exceptions.handler;
 
+import com.compass.ms_stock.exceptions.EntityNotFoundException;
 import com.compass.ms_stock.exceptions.ErrorNotNullViolation;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
