@@ -43,9 +43,9 @@ public class StockController {
         return ResponseEntity.ok(StockDTO.toDto(product));
     }
 
-    @PostMapping
-    public ResponseEntity<String> updateProduct(@RequestBody ProductCreateDTO update) {
-        stockService.createProductInStock(update);
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProduct(@RequestBody ProductCreateDTO update, @PathVariable Long id) {
+        stockService.updateProductInStock(update, id);
         return ResponseEntity.status(HttpStatus.CREATED).body("Sucessfully update product");
     }
 
