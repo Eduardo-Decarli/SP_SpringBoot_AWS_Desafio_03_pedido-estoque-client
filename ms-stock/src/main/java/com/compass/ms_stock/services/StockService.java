@@ -1,6 +1,7 @@
 package com.compass.ms_stock.services;
 
 import com.compass.ms_stock.entities.Product;
+import com.compass.ms_stock.exceptions.DataUniqueViolationException;
 import com.compass.ms_stock.exceptions.EntityNotFoundException;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
 import com.compass.ms_stock.repositories.StockRepository;
@@ -21,7 +22,14 @@ public class StockService {
     private final StockRepository repo;
 
     public ProductResponseDTO createProductInStock(ProductCreateDTO create) {
+        if(repo.findProductByName(create.getName().toUpperCase()) != null) {
+            throw new DataUniqueViolationException("There is already a product registered with that name");
+        }
         Product product = StockMapper.toProduct(create);
+        product.setName(product.getName().toUpperCase());
+        if(product.getQuantity() <= 0) {
+            throw new ErrorQuantityBelowZero("The product cannot have a quantity less than zero");
+        }
         product = repo.save(product);
         return StockMapper.toDto(product);
     }
@@ -45,7 +53,7 @@ public class StockService {
 
     public Product findProductByName(String name) {
         log.info("Search a product by name: " + name);
-        Product product = repo.findProductByName(name);
+        Product product = repo.findProductByName(name.toUpperCase());
         if(product == null){
             throw new EntityNotFoundException("Product not found by this name " + name);
         }
@@ -53,9 +61,15 @@ public class StockService {
     }
 
     public ProductResponseDTO updateProductInStock(ProductCreateDTO update, Long id) {
+        if(repo.findProductByName(update.getName().toUpperCase()) != null) {
+            throw new DataUniqueViolationException("There is already a product registered with that name");
+        }
         Product product = findProductById(id);
-        product.setName(update.getName());
+        product.setName(update.getName().toUpperCase());
         product.setQuantity(update.getQuantity());
+        if(product.getQuantity() <= 0) {
+            throw new ErrorQuantityBelowZero("The product cannot have a quantity less than zero");
+        }
         product = repo.save(product);
         return StockMapper.toDto(product);
     }
