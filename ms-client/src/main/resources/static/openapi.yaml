@@ -203,6 +203,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
+        '422':
+          description: User can't be created by Email
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
 components:
   schemas:
     ClientCreateDTO:
