@@ -20,6 +20,7 @@ public class OrderServices {
 
     public Order createOrder(Order create) {
         userClient.consultEmailUser(create.getClientEmail());
+
         for(Product x : create.getProducts()) {
             stockClient.findProductByName(x.getName());
             stockClient.removeQuantity(x.getQuantity(), x.getName());
