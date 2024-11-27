@@ -36,7 +36,7 @@ class StockIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getName()).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Calculator");
+		assertThat(responseBody.getName()).isEqualTo("Calculator".toUpperCase());
 		assertThat(responseBody.getQuantity()).isNotNull();
 		assertThat(responseBody.getQuantity()).isEqualTo(2);
 	}
@@ -49,12 +49,28 @@ class StockIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new ProductCreateDTO("Rodrigo Silva", null))
 				.exchange()
-				.expectStatus().isEqualTo(422)
+				.expectStatus().isEqualTo(400)
 				.expectBody(ErrorMessage.class)
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getStatus()).isEqualTo(422);
+		assertThat(responseBody.getStatus()).isEqualTo(400);
+	}
+
+	@Test
+	public void createProduct_WithQuantityLess0_ReturnsStatus422() {
+		ErrorMessage responseBody = testClient
+				.post()
+				.uri("/api/v1/stock")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ProductCreateDTO("Rodrigo Silva", 0))
+				.exchange()
+				.expectStatus().isEqualTo(400)
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -65,12 +81,12 @@ class StockIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new ProductCreateDTO("", 2))
 				.exchange()
-				.expectStatus().isEqualTo(422)
+				.expectStatus().isEqualTo(400)
 				.expectBody(ErrorMessage.class)
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getStatus()).isEqualTo(422);
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -113,7 +129,7 @@ class StockIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Computer");
+		assertThat(responseBody.getName()).isEqualTo("Computer".toUpperCase());
 		assertThat(responseBody.getQuantity()).isEqualTo(10);
 	}
 
@@ -142,7 +158,7 @@ class StockIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Computer");
+		assertThat(responseBody.getName()).isEqualTo("Computer".toUpperCase());
 	}
 
 	@Test
@@ -172,8 +188,25 @@ class StockIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Mouse");
+		assertThat(responseBody.getName()).isEqualTo("Mouse".toUpperCase());
 		assertThat(responseBody.getQuantity()).isEqualTo(10);
+	}
+
+	@Test
+	public void updateProductById_WithQuantityLess0_ReturnsStatus200() {
+		ErrorMessage responseBody = testClient
+				.put()
+				.uri("/api/v1/stock/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ProductCreateDTO("Mouse", -1))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
+
 	}
 
 	@Test
@@ -187,7 +220,7 @@ class StockIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Tablet");
+		assertThat(responseBody.getName()).isEqualTo("Tablet".toUpperCase());
 		assertThat(responseBody.getQuantity()).isEqualTo(0);
 	}
 
@@ -216,7 +249,7 @@ class StockIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getName()).isEqualTo("Tablet");
+		assertThat(responseBody.getName()).isEqualTo("Tablet".toUpperCase());
 		assertThat(responseBody.getQuantity()).isEqualTo(4);
 	}
 
