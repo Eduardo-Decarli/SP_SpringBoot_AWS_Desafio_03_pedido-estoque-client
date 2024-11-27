@@ -4,15 +4,13 @@ import com.compass.ms_stock.entities.Product;
 import com.compass.ms_stock.services.StockService;
 import com.compass.ms_stock.web.controller.dto.ProductCreateDTO;
 import com.compass.ms_stock.web.controller.dto.ProductResponseDTO;
-import com.compass.ms_stock.web.controller.dto.mapper.StockDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.compass.ms_stock.web.controller.dto.mapper.StockMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +19,15 @@ import java.util.List;
 @RequestMapping("/api/v1/stock")
 @AllArgsConstructor
 @Tag(name = "Stock API", description = "API for managing product stock")
+@Validated
 public class StockController {
 
     private final StockService stockService;
 
     @PostMapping
-    public ResponseEntity<String> createProduct(@RequestBody ProductCreateDTO create) {
-        stockService.createProductInStock(create);
-        return ResponseEntity.status(HttpStatus.CREATED).body("successfully create product");
+    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductCreateDTO create) {
+        ProductResponseDTO response = stockService.createProductInStock(create);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -40,30 +39,30 @@ public class StockController {
     @GetMapping("/product/id/{id}")
     public ResponseEntity<ProductResponseDTO> findProductById(@PathVariable Long id) {
         Product product = stockService.findProductById(id);
-        return ResponseEntity.ok(StockDTO.toDto(product));
+        return ResponseEntity.ok(StockMapper.toDto(product));
     }
 
     @GetMapping("/product/name/{name}")
     public ResponseEntity<ProductResponseDTO> findProductByName(@PathVariable String name) {
         Product product = stockService.findProductByName(name);
-        return ResponseEntity.ok(StockDTO.toDto(product));
+        return ResponseEntity.ok(StockMapper.toDto(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduct(@RequestBody ProductCreateDTO update, @PathVariable Long id) {
-        stockService.updateProductInStock(update, id);
-        return ResponseEntity.status(HttpStatus.CREATED).body("successfully update product");
+    public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @RequestBody ProductCreateDTO update, @PathVariable Long id) {
+        ProductResponseDTO response = stockService.updateProductInStock(update, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/quantity/remove/{quantity}/{name}")
-    public ResponseEntity<String> removeQuantity(@PathVariable Integer quantity, @PathVariable String name) {
-        stockService.removeQuantityByName(quantity, name);
-        return ResponseEntity.ok().body("Removed quantity successfully");
+    public ResponseEntity<ProductResponseDTO> removeQuantity(@PathVariable Integer quantity, @PathVariable String name) {
+        ProductResponseDTO response = stockService.removeQuantityByName(quantity, name);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/quantity/add/{quantity}/{name}")
-    public ResponseEntity<String> addQuantity(@PathVariable Integer quantity, @PathVariable String name) {
-        stockService.addQuantityByName(quantity, name);
-        return ResponseEntity.ok().body("add quantity successfully");
+    public ResponseEntity<ProductResponseDTO> addQuantity(@PathVariable Integer quantity, @PathVariable String name) {
+        ProductResponseDTO response = stockService.addQuantityByName(quantity, name);
+        return ResponseEntity.ok().body(response);
     }
 }

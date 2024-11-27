@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StockDTO {
+public class StockMapper {
 
     public static Product toProduct(ProductCreateDTO createDTO) {
         return new ModelMapper().map(createDTO, Product.class);

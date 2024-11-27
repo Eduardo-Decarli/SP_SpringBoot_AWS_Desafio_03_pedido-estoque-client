@@ -1,6 +1,7 @@
 package com.compass.ms_stock.web.controller.dto;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,17 +11,11 @@ import lombok.Setter;
 @Getter @Setter
 public class ProductCreateDTO {
 
-    @Column(nullable = false)
+
+    @NotBlank(message = "The product's name can't be null")
     private String name;
 
-    @Column(nullable = false)
+    @NotNull(message = "The product's quantity can't be null")
     private Integer quantity;
 
-    @Override
-    public String toString() {
-        return "ProductCreateDTO{" +
-                "name='" + name + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
 }
