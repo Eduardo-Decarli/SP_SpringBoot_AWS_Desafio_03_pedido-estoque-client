@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @Entity
 public class Product implements Serializable {
 
@@ -24,13 +23,4 @@ public class Product implements Serializable {
 
     @Column(nullable = false)
     private Integer quantity;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
 }
