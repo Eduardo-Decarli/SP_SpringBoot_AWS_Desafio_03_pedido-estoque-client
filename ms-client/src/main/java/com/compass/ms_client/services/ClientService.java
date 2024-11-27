@@ -2,7 +2,6 @@ package com.compass.ms_client.services;
 
 import com.compass.ms_client.entities.Client;
 import com.compass.ms_client.exceptions.EntityNotFoundException;
-import com.compass.ms_client.exceptions.ErrorNotNullViolation;
 import com.compass.ms_client.repositories.ClientRepository;
 import com.compass.ms_client.web.dto.ClientCreateDTO;
 import com.compass.ms_client.web.dto.ClientResponseDTO;
@@ -21,11 +20,7 @@ public class ClientService {
     private final ClientRepository repo;
 
     public ClientResponseDTO createClient(ClientCreateDTO create) {
-        if(create == null) {
-            throw new ErrorNotNullViolation("Client can't be null");
-        }
         Client client = ClientMapper.toClient(create);
-
         log.info("creating a client");
         client = repo.save(client);
         return ClientMapper.toDto(client);
