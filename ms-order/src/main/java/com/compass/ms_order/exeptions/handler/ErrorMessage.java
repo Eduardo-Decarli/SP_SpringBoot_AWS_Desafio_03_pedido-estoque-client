@@ -1,4 +1,4 @@
-package com.compass.ms_order.web.exeptions.handler;
+package com.compass.ms_order.exeptions.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;

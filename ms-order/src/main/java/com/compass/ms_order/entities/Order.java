@@ -24,7 +24,7 @@ public class Order implements Serializable {
     @Column(name = "email_clients")
     private String clientEmail;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Product> products;
 
     @Override

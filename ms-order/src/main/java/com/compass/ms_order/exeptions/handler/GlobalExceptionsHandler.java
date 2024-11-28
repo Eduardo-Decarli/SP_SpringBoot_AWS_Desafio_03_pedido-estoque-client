@@ -1,6 +1,7 @@
-package com.compass.ms_order.web.exeptions.handler;
+package com.compass.ms_order.exeptions.handler;
 
-import jakarta.persistence.EntityNotFoundException;
+
+import com.compass.ms_order.exeptions.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
