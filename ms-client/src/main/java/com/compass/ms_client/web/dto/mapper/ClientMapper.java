@@ -4,7 +4,6 @@ import com.compass.ms_client.entities.Client;
 import com.compass.ms_client.web.dto.ClientCreateDTO;
 import com.compass.ms_client.web.dto.ClientResponseDTO;
 import org.modelmapper.ModelMapper;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.stream.Collectors;

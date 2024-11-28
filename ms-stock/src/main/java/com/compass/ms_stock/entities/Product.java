@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @Entity
 public class Product implements Serializable {
 
@@ -19,18 +18,9 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
     private Integer quantity;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
 }
