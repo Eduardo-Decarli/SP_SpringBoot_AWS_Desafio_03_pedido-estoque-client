@@ -58,6 +58,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductResponseDTO'
+        '404':
+          description: Products not found
+          content:
+            '*/*':
+              schema:
+                type: string
     post:
       tags:
         - Stock API
@@ -105,6 +111,12 @@ paths:
       responses:
         '200':
           description: Quantity removed successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Invalid data
           content:
             '*/*':
               schema:
