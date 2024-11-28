@@ -21,5 +21,5 @@ public class OrderResponseDTO {
     private String clientEmail;
 
     @NotNull(message = "the products can't be null")
-    private List<Product> products;
+    private List<ProductResponseDTO> products;
 }

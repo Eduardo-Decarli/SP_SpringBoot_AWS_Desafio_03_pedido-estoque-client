@@ -6,6 +6,9 @@ import com.compass.ms_order.exeptions.EntityNotFoundException;
 import com.compass.ms_order.repositories.OrderRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
+import com.compass.ms_order.web.dto.OrderCreateDTO;
+import com.compass.ms_order.web.dto.OrderResponseDTO;
+import com.compass.ms_order.web.dto.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,8 @@ public class OrderServices {
     private final UserClient userClient;
     private final OrderRepository repo;
 
-    public Order createOrder(Order create) {
+    public OrderResponseDTO createOrder(OrderCreateDTO createDTO) {
+            Order create = OrderMapper.toOrder(createDTO);
             userClient.consultEmailUser(create.getClientEmail());
 
             for (Product correntProduct : create.getProducts()) {
@@ -29,10 +33,11 @@ public class OrderServices {
                 correntProduct.setOrder(create);
             }
             create = repo.save(create);
-            return create;
+            return OrderMapper.toDto(create);
     }
 
-    public Order updateOrderById(Order update, Long id) {
+    public OrderResponseDTO updateOrderById(OrderCreateDTO updateDTO, Long id) {
+        Order update = OrderMapper.toOrder(updateDTO);
         Order currentOrder = findOrderById(id);
         userClient.consultEmailUser(update.getClientEmail());
         currentOrder.setClientEmail(update.getClientEmail());
@@ -63,13 +68,13 @@ public class OrderServices {
 
         currentOrder.setProducts(updatedProducts);
         update = repo.save(currentOrder);
-        return update;
+        return OrderMapper.toDto(update);
     }
 
-    public List<Order> findAllOrderByEmail(String email) {
+    public List<OrderResponseDTO> findAllOrderByEmail(String email) {
         userClient.consultEmailUser(email);
-        List<Order> order = repo.findOrderByClientEmail(email);
-        return order;
+        List<Order> orders = repo.findOrderByClientEmail(email);
+        return OrderMapper.toListDTO(orders);
     }
 
     public Order findOrderById(Long id) {

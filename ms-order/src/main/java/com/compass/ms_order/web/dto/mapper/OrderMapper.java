@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class OrderMapper {
 
-    public static Order toClient(OrderCreateDTO createDTO) {
+    public static Order toOrder(OrderCreateDTO createDTO) {
         return new ModelMapper().map(createDTO, Order.class);
     }
 
