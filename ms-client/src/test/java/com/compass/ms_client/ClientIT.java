@@ -5,12 +5,12 @@ import com.compass.ms_client.web.dto.ClientCreateDTO;
 import com.compass.ms_client.web.dto.ClientResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.integration.IntegrationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -39,7 +39,23 @@ class ClientIT {
 		assertThat(responseBody.getName()).isNotNull();
 		assertThat(responseBody.getName()).isEqualTo("Rodrigo Silva");
 		assertThat(responseBody.getEmail()).isNotNull();
-		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com");
+		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com".toUpperCase());
+	}
+
+	@Test
+	public void createClient_WithUniqueValidationEmail_ReturnsStatus404() {
+		ErrorMessage responseBody = testClient
+				.post()
+				.uri("/api/v1/client")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ClientCreateDTO("Rodrigo Silva", "joao.silva@example.com"))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -50,12 +66,12 @@ class ClientIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new ClientCreateDTO("Rodrigo Silva", ""))
 				.exchange()
-				.expectStatus().isEqualTo(422)
+				.expectStatus().isBadRequest()
 				.expectBody(ErrorMessage.class)
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getStatus()).isEqualTo(422);
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -66,12 +82,12 @@ class ClientIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new ClientCreateDTO("", "teste@teste.com"))
 				.exchange()
-				.expectStatus().isEqualTo(422)
+				.expectStatus().isEqualTo(400)
 				.expectBody(ErrorMessage.class)
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getStatus()).isEqualTo(422);
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -99,7 +115,7 @@ class ClientIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getName()).isEqualTo("João Silva");
-		assertThat(responseBody.getEmail()).isEqualTo("joao.silva@example.com");
+		assertThat(responseBody.getEmail()).isEqualTo("joao.silva@example.com".toUpperCase());
 	}
 
 	@Test
@@ -127,7 +143,7 @@ class ClientIT {
 				.returnResult().getResponseBody();
 
 		assertThat(responseBody).isNotNull();
-		assertThat(responseBody.getEmail()).isEqualTo("joao.silva@example.com");
+		assertThat(responseBody.getEmail()).isEqualTo("joao.silva@example.com".toUpperCase());
 	}
 
 	@Test
@@ -174,7 +190,23 @@ class ClientIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getName()).isEqualTo("Rodrigo Silva");
-		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com");
+		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com".toUpperCase());
+	}
+
+	@Test
+	public void updateClientById_WithUniqueViolationEmail_ReturnsStatus400() {
+		ErrorMessage responseBody = testClient
+				.put()
+				.uri("/api/v1/client/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ClientCreateDTO("Rodrigo Silva", "carlos.santos@example.com"))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
@@ -191,7 +223,23 @@ class ClientIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getName()).isEqualTo("Rodrigo Silva");
-		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com");
+		assertThat(responseBody.getEmail()).isEqualTo("teste@example.com".toUpperCase());
+	}
+
+	@Test
+	public void updateClientByEmail_WithUniqueViolationEmail_ReturnsStatus400() {
+		ErrorMessage responseBody = testClient
+				.put()
+				.uri("/api/v1/client/email/joao.silva@example.com")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ClientCreateDTO("Rodrigo Silva", "carlos.santos@example.com"))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test

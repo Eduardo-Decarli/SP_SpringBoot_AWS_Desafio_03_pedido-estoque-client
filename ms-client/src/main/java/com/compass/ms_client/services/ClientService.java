@@ -1,6 +1,7 @@
 package com.compass.ms_client.services;
 
 import com.compass.ms_client.entities.Client;
+import com.compass.ms_client.exceptions.DataUniqueViolationException;
 import com.compass.ms_client.exceptions.EntityNotFoundException;
 import com.compass.ms_client.repositories.ClientRepository;
 import com.compass.ms_client.web.dto.ClientCreateDTO;
@@ -20,7 +21,11 @@ public class ClientService {
     private final ClientRepository repo;
 
     public ClientResponseDTO createClient(ClientCreateDTO create) {
+        if(repo.findByEmail(create.getEmail().toUpperCase()) != null) {
+            throw new DataUniqueViolationException("There is already a email registered");
+        }
         Client client = ClientMapper.toClient(create);
+        client.setEmail(client.getEmail().toUpperCase());
         log.info("creating a client");
         client = repo.save(client);
         return ClientMapper.toDto(client);
@@ -44,7 +49,7 @@ public class ClientService {
 
     public Client findClientByEmail(String email) {
         log.info("finding a client by email");
-        Client client = repo.findByEmail(email);
+        Client client = repo.findByEmail(email.toUpperCase());
         if(client == null) {
             throw new EntityNotFoundException("error: not found client by email " + email);
         }
@@ -53,8 +58,11 @@ public class ClientService {
 
     public ClientResponseDTO updateClientById(ClientCreateDTO update, Long id) {
         Client correntClient = findClientById(id);
+        if(repo.findByEmail(update.getEmail().toUpperCase()) != null && !(update.getEmail().equalsIgnoreCase(correntClient.getEmail()))) {
+            throw new DataUniqueViolationException("There is already a client registered with that email");
+        }
         correntClient.setName(update.getName());
-        correntClient.setEmail(update.getEmail());
+        correntClient.setEmail(update.getEmail().toUpperCase());
 
         log.info("updating a client by id");
         Client client = repo.save(correntClient);
@@ -63,8 +71,11 @@ public class ClientService {
 
     public ClientResponseDTO updateClientByEmail(ClientCreateDTO update, String email) {
         Client correntClient = findClientByEmail(email);
+        if(repo.findByEmail(update.getEmail().toUpperCase()) != null && !(update.getEmail().equalsIgnoreCase(correntClient.getEmail()))) {
+            throw new DataUniqueViolationException("There is already a client registered with that email");
+        }
         correntClient.setName(update.getName());
-        correntClient.setEmail(update.getEmail());
+        correntClient.setEmail(update.getEmail().toUpperCase());
 
         log.info("updating a client by email");
         Client client = repo.save(correntClient);

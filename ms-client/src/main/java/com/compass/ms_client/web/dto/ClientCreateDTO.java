@@ -14,7 +14,7 @@ public class ClientCreateDTO {
     @NotBlank(message = "Name cannot be null")
     private String name;
 
-    @Email(message = "Email nedd be valid")
+    @Email(message = "Email need be valid")
     @NotBlank(message = "Email cannot be null")
     private String email;
 }
