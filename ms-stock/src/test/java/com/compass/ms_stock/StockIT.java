@@ -42,6 +42,22 @@ class StockIT {
 	}
 
 	@Test
+	public void createProduct_WithUniqueViolation_ReturnsStatus400() {
+		ErrorMessage responseBody = testClient
+				.post()
+				.uri("/api/v1/stock")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ProductCreateDTO("Computer", 2))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
+	}
+
+	@Test
 	public void createProduct_WithInvalidQuantity_ReturnsStatus422() {
 		ErrorMessage responseBody = testClient
 				.post()
@@ -206,7 +222,22 @@ class StockIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getStatus()).isEqualTo(400);
+	}
 
+	@Test
+	public void updateProduct_WithUniqueViolation_ReturnsStatus400() {
+		ErrorMessage responseBody = testClient
+				.put()
+				.uri("/api/v1/stock/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(new ProductCreateDTO("Smartphone", 2))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(ErrorMessage.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getStatus()).isEqualTo(400);
 	}
 
 	@Test
