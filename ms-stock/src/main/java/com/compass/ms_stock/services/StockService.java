@@ -61,10 +61,10 @@ public class StockService {
     }
 
     public ProductResponseDTO updateProductInStock(ProductCreateDTO update, Long id) {
-        if(repo.findProductByName(update.getName().toUpperCase()) != null) {
+        Product product = findProductById(id);
+        if(repo.findProductByName(update.getName().toUpperCase()) != null && !(update.getName().equalsIgnoreCase(product.getName()))) {
             throw new DataUniqueViolationException("There is already a product registered with that name");
         }
-        Product product = findProductById(id);
         product.setName(update.getName().toUpperCase());
         product.setQuantity(update.getQuantity());
         if(product.getQuantity() <= 0) {

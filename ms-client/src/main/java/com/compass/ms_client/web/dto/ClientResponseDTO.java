@@ -15,12 +15,4 @@ public class ClientResponseDTO {
     private String name;
     @Email
     private String email;
-
-    @Override
-    public String toString() {
-        return "ClientCreateDTO{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
