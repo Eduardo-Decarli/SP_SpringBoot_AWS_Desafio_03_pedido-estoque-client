@@ -1,10 +1,13 @@
 package com.compass.ms_order.exeptions.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -13,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter @Setter
-@ToString
+@ToString @Log4j2
 public class ErrorMessage {
 
     private String path;
@@ -25,14 +28,6 @@ public class ErrorMessage {
     private Map<String, String> errors;
 
     public ErrorMessage() {
-    }
-
-    public ErrorMessage(HttpServletRequest request, FeignException ex) {
-        this.path = request.getRequestURI();
-        this.method = request.getMethod();
-        this.status = ex.status();
-        this.statusText = HttpStatus.valueOf(ex.status()).getReasonPhrase();
-        this.message = ex.contentUTF8();
     }
 
     public ErrorMessage(HttpServletRequest request, HttpStatus status, String message) {
@@ -58,6 +53,4 @@ public class ErrorMessage {
             this.errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
     }
-
-    public 
 }

@@ -2,6 +2,8 @@ package com.compass.ms_order.exeptions.handler;
 
 
 import com.compass.ms_order.exeptions.EntityNotFoundException;
+import com.compass.ms_order.exeptions.ErrorQuantityBelowZero;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +26,12 @@ public class GlobalExceptionsHandler {
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
-    @ExceptionHandler(FeignException.class)
-    public ResponseEntity<ErrorMessage> feignException(FeignException ex,
-                                                       HttpServletRequest request){
+    @ExceptionHandler(ErrorQuantityBelowZero.class)
+    public ResponseEntity<ErrorMessage> errorQuantityBelowZero(ErrorQuantityBelowZero ex,
+                                                                HttpServletRequest request){
         return ResponseEntity
-                .status(ex.status())
+                .status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(request, ex));
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
-
 }

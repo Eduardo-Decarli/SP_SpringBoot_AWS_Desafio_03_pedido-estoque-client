@@ -6,8 +6,6 @@ import com.compass.ms_order.exeptions.EntityNotFoundException;
 import com.compass.ms_order.repositories.OrderRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
-import feign.FeignException;
-import feign.codec.ErrorDecoder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +40,7 @@ public class OrderServices {
 
         for (Product newProduct : update.getProducts()) {
             boolean productExists = false;
-
+            stockClient.findProductByName(newProduct.getName());
             for (Product existingProduct : currentOrder.getProducts()) {
                 if (existingProduct.getName().equalsIgnoreCase(newProduct.getName())) {
                     productExists = true;
