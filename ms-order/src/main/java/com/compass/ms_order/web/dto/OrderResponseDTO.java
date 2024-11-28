@@ -1,29 +1,25 @@
-package com.compass.ms_order.entities;
+package com.compass.ms_order.web.dto;
 
-import jakarta.persistence.*;
+import com.compass.ms_order.entities.Product;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.List;
-
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
-@Entity
-@Table(name = "orders")
-public class Order implements Serializable {
+public class OrderResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Email
-    @Column(name = "email_clients")
+    @NotBlank(message = "the email address can't be null")
     private String clientEmail;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @NotNull(message = "the products can't be null")
     private List<Product> products;
 }
