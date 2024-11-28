@@ -6,6 +6,8 @@ import com.compass.ms_order.exeptions.EntityNotFoundException;
 import com.compass.ms_order.repositories.OrderRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
+import feign.FeignException;
+import feign.codec.ErrorDecoder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +23,15 @@ public class OrderServices {
     private final OrderRepository repo;
 
     public Order createOrder(Order create) {
-        userClient.consultEmailUser(create.getClientEmail());
+            userClient.consultEmailUser(create.getClientEmail());
 
-        for(Product correntProduct : create.getProducts()) {
-            stockClient.findProductByName(correntProduct.getName());
-            stockClient.removeQuantity(correntProduct.getQuantity(), correntProduct.getName());
-            correntProduct.setOrder(create);
-        }
-        create = repo.save(create);
-        return create;
+            for (Product correntProduct : create.getProducts()) {
+                stockClient.findProductByName(correntProduct.getName());
+                stockClient.removeQuantity(correntProduct.getQuantity(), correntProduct.getName());
+                correntProduct.setOrder(create);
+            }
+            create = repo.save(create);
+            return create;
     }
 
     public Order updateOrderById(Order update, Long id) {

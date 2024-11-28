@@ -2,6 +2,7 @@ package com.compass.ms_order.exeptions.handler;
 
 
 import com.compass.ms_order.exeptions.EntityNotFoundException;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,15 @@ public class GlobalExceptionsHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorMessage> feignException(FeignException ex,
+                                                       HttpServletRequest request){
+        return ResponseEntity
+                .status(ex.status())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, ex));
     }
 
 }

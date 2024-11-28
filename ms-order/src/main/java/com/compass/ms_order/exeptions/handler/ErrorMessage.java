@@ -1,5 +1,6 @@
 package com.compass.ms_order.exeptions.handler;
 
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,14 @@ public class ErrorMessage {
     public ErrorMessage() {
     }
 
+    public ErrorMessage(HttpServletRequest request, FeignException ex) {
+        this.path = request.getRequestURI();
+        this.method = request.getMethod();
+        this.status = ex.status();
+        this.statusText = HttpStatus.valueOf(ex.status()).getReasonPhrase();
+        this.message = ex.contentUTF8();
+    }
+
     public ErrorMessage(HttpServletRequest request, HttpStatus status, String message) {
         this.path = request.getRequestURI();
         this.method = request.getMethod();
@@ -49,4 +58,6 @@ public class ErrorMessage {
             this.errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
     }
+
+    public 
 }
