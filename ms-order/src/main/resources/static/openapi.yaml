@@ -1,7 +1,8 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
+  title: ms-order API
+  description: API for managing orders.
+  version: 1.0
 servers:
   - url: http://localhost:8081
     description: Generated server url
@@ -28,6 +29,36 @@ paths:
                 $ref: '#/components/schemas/Order'
         '400':
           description: Invalid request data
+  /api/v1/order/update/{id}:
+    put:
+      tags:
+        - order-controller
+      summary: Update an existing order
+      description: updates an existing order's data by providing the order ID and the new data.
+      operationId: updateOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: Long
+            example: 1
+          description: The ID of the order to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid request
   /api/v1/order/historic/{email}:
     get:
       tags:

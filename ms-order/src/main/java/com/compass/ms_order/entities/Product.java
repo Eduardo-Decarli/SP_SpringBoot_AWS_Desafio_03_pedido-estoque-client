@@ -1,7 +1,6 @@
 package com.compass.ms_order.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 @Entity
+@Table(name = "product")
 public class Product implements Serializable{
 
     @Id

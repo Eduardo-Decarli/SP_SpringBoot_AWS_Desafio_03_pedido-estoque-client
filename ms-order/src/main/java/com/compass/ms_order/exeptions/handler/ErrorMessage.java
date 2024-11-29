@@ -1,9 +1,13 @@
-package com.compass.ms_order.web.exeptions.handler;
+package com.compass.ms_order.exeptions.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -12,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter @Setter
-@ToString
+@ToString @Log4j2
 public class ErrorMessage {
 
     private String path;
