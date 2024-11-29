@@ -10,15 +10,7 @@ import java.util.stream.Collectors;
 
 public class ProductMapper {
 
-    public static Product toProduct(ProductCreateDTO createDTO) {
-        return new ModelMapper().map(createDTO, Product.class);
-    }
-
     public static ProductResponseDTO toDto(Product product) {
         return new ModelMapper().map(product, ProductResponseDTO.class);
-    }
-
-    public static List<ProductResponseDTO> toListDTO(List<Product> products) {
-        return products.stream().map(product -> toDto(product)).collect(Collectors.toList());
     }
 }

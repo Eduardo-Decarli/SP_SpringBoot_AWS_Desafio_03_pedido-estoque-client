@@ -1,5 +1,5 @@
 
-INSERT INTO orders (email_clients) VALUE ('cristiane@example.com');
+INSERT INTO orders (email_clients) VALUES ('cristiane@example.com');
 INSERT INTO orders (email_clients) VALUES ('pedro@example.com');
 
 INSERT INTO product (order_id, name, quantity) VALUES (1, 'Smartphone', 10);

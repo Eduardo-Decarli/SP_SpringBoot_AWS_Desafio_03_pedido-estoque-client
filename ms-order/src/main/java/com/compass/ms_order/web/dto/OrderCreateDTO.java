@@ -23,5 +23,5 @@ public class OrderCreateDTO {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @NotNull(message = "the products can't be null")
-    private List<Product> products;
+    private List<ProductCreateDTO> products;
 }

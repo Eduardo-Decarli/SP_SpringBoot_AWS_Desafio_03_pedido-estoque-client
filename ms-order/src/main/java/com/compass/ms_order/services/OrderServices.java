@@ -4,11 +4,14 @@ import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.entities.Product;
 import com.compass.ms_order.exeptions.EntityNotFoundException;
 import com.compass.ms_order.repositories.OrderRepository;
+import com.compass.ms_order.repositories.ProductRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
+import com.compass.ms_order.web.dto.ProductResponseDTO;
 import com.compass.ms_order.web.dto.mapper.OrderMapper;
+import com.compass.ms_order.web.dto.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ public class OrderServices {
     private final StockClient stockClient;
     private final UserClient userClient;
     private final OrderRepository repo;
+    private final ProductRepository productRepository;
 
     public OrderResponseDTO createOrder(OrderCreateDTO createDTO) {
             Order create = OrderMapper.toOrder(createDTO);
@@ -74,6 +78,9 @@ public class OrderServices {
     public List<OrderResponseDTO> findAllOrderByEmail(String email) {
         userClient.consultEmailUser(email);
         List<Order> orders = repo.findOrderByClientEmail(email);
+        if(orders.isEmpty()) {
+            throw new EntityNotFoundException("No requests were registered for the requested user");
+        }
         return OrderMapper.toListDTO(orders);
     }
 
@@ -84,5 +91,11 @@ public class OrderServices {
         return order;
     }
 
+    public ProductResponseDTO findProductById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Product not found by Id")
+        );
+        return ProductMapper.toDto(product);
+    }
 
 }
