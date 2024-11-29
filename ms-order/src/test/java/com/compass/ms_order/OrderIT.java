@@ -19,6 +19,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 
+import static com.compass.ms_order.UsedVariable.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Sql(scripts = "/sql-Order/InsertOrder.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -36,25 +37,6 @@ class OrderIT {
 	private StockClient stockClient;
 
 	private OrderIT orderIT;
-
-	String RESPONSE_CLIENT = "[{\n" +
-			"    \"name\": \"Rodrigo\",\n" +
-			"    \"email\": \"RODRIGO.SILVA@GMAIL.COM\"\n" +
-			"}]";
-
-	String NOTFOUND_EXCEPTION = "[{\n" +
-			"    \"path\": \"/api/v1/client/email/TET@gmail.com\",\n" +
-			"    \"method\": \"GET\",\n" +
-			"    \"status\": 404,\n" +
-			"    \"statusText\": \"Not Found\",\n" +
-			"    \"message\": \"error: not found client by email TET@gmail.com\",\n" +
-			"    \"errors\": null\n" +
-			"}]";
-
-	String RESPONSE_STOCK_NAME = "[{\n" +
-			"    \"name\": \"Computador\",\n" +
-			"    \"quantity\": \"5\"\n" +
-			"}]";
 
 	@Test
 	public void createClient_WithValidData_ReturnsStatus201() {
@@ -158,7 +140,6 @@ class OrderIT {
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getName()).isEqualTo("Smartphone");
 		assertThat(responseBody.getQuantity()).isEqualTo(10);
-
 	}
 
 

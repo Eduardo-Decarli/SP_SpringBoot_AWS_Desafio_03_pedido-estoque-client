@@ -89,6 +89,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Order'
+  /api/v1/order/product/{id}:
+    get:
+      tags:
+        - order-controller
+      summary: Find product by id
+      description: Fetch product associated by this id.
+      operationId: findProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: Long
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No product found for the id
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Order'
 components:
   schemas:
     Order:
