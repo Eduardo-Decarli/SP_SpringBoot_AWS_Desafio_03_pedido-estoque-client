@@ -1,6 +1,10 @@
-package com.compass.ms_order.web.exeptions.handler;
+package com.compass.ms_order.exeptions.handler;
 
-import jakarta.persistence.EntityNotFoundException;
+
+import com.compass.ms_order.exeptions.EntityNotFoundException;
+import com.compass.ms_order.exeptions.ErrorQuantityBelowZero;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,4 +26,12 @@ public class GlobalExceptionsHandler {
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
+    @ExceptionHandler(ErrorQuantityBelowZero.class)
+    public ResponseEntity<ErrorMessage> errorQuantityBelowZero(ErrorQuantityBelowZero ex,
+                                                                HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
 }

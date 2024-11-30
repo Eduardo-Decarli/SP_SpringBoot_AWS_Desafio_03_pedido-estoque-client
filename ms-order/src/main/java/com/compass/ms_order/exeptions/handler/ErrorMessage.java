@@ -1,9 +1,14 @@
-package com.compass.ms_order.web.exeptions.handler;
+package com.compass.ms_order.exeptions.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -11,8 +16,9 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor
 @Getter @Setter
-@ToString
+@ToString @Log4j2
 public class ErrorMessage {
 
     private String path;
@@ -23,30 +29,11 @@ public class ErrorMessage {
 
     private Map<String, String> errors;
 
-    public ErrorMessage() {
-    }
-
     public ErrorMessage(HttpServletRequest request, HttpStatus status, String message) {
         this.path = request.getRequestURI();
         this.method = request.getMethod();
         this.status = status.value();
         this.statusText = status.getReasonPhrase();
         this.message = message;
-    }
-
-    public ErrorMessage(HttpServletRequest request, HttpStatus status, String message, BindingResult result) {
-        this.path = request.getRequestURI();
-        this.method = request.getMethod();
-        this.status = status.value();
-        this.statusText = status.getReasonPhrase();
-        this.message = message;
-        addErrors(result);
-    }
-
-    private void addErrors(BindingResult result) {
-        this.errors = new HashMap<>();
-        for (FieldError fieldError : result.getFieldErrors()) {
-            this.errors.put(fieldError.getField(), fieldError.getDefaultMessage());
-        }
     }
 }
