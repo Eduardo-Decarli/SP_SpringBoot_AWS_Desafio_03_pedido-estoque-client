@@ -5,7 +5,7 @@ spring:
 
   # JPA
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders
+    url: jdbc:postgresql://postgres:5432/orders
     username: postgres
     password: 2004
   jpa:
