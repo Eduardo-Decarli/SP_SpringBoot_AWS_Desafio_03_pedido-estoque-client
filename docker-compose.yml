@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:17.2
+    image: postgres:17.2-alpine
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
@@ -11,3 +11,24 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  ms-client:
+    build: 
+      context: ./ms-client
+    container_name: ms-client
+    ports: 
+      - 8082:8082
+
+  ms-stock:
+    build: 
+      context: ./ms-stock
+    container_name: ms-stock
+    ports: 
+      - 8080:8080
+
+  ms-order:
+    build: 
+      context: ./ms-order
+    container_name: ms-order
+    ports: 
+      - 8081:8081

@@ -1,6 +1,8 @@
 package com.compass.ms_order.web.dto.mapper;
 
+import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.entities.Product;
+import com.compass.ms_order.web.dto.OrderResponseDTO;
 import com.compass.ms_order.web.dto.ProductCreateDTO;
 import com.compass.ms_order.web.dto.ProductResponseDTO;
 import org.modelmapper.ModelMapper;
