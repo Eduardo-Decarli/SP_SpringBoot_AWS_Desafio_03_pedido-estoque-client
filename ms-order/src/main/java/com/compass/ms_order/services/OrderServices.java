@@ -3,6 +3,7 @@ package com.compass.ms_order.services;
 import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.entities.Product;
 import com.compass.ms_order.exeptions.EntityNotFoundException;
+import com.compass.ms_order.repositories.OrderFunctionsRepository;
 import com.compass.ms_order.repositories.OrderRepository;
 import com.compass.ms_order.repositories.ProductRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
@@ -13,14 +14,17 @@ import com.compass.ms_order.web.dto.ProductResponseDTO;
 import com.compass.ms_order.web.dto.mapper.OrderMapper;
 import com.compass.ms_order.web.dto.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
-public class OrderServices {
+@Log4j2
+public class OrderServices implements OrderFunctionsRepository {
 
     private final StockClient stockClient;
     private final UserClient userClient;
@@ -36,6 +40,9 @@ public class OrderServices {
                 stockClient.removeQuantity(correntProduct.getQuantity(), correntProduct.getName());
                 correntProduct.setOrder(create);
             }
+
+            create.setClientEmail(create.getClientEmail().toLowerCase());
+            create.setProtocol(UUID.randomUUID().toString());
             create = repo.save(create);
             return OrderMapper.toDto(create);
     }
@@ -71,13 +78,15 @@ public class OrderServices {
         }
 
         currentOrder.setProducts(updatedProducts);
+        currentOrder.setClientEmail(currentOrder.getClientEmail().toLowerCase());
         update = repo.save(currentOrder);
         return OrderMapper.toDto(update);
     }
 
-    public List<OrderResponseDTO> findAllOrderByEmail(String email) {
+    public List<OrderResponseDTO> findAllOrdersByEmail(String email) {
         userClient.consultEmailUser(email);
-        List<Order> orders = repo.findOrderByClientEmail(email);
+        List<Order> orders = repo.findOrderByClientEmail(email.toLowerCase());
+        log.info(orders);
         if(orders.isEmpty()) {
             throw new EntityNotFoundException("No requests were registered for the requested user");
         }
@@ -98,4 +107,11 @@ public class OrderServices {
         return ProductMapper.toDto(product);
     }
 
+    public OrderResponseDTO findOrderByProtocol(String protocol) {
+        Order order = repo.findOrderByProtocol(protocol);
+        if(order == null) {
+            throw new EntityNotFoundException("Order by protocol not found");
+        }
+        return OrderMapper.toDto(order);
+    }
 }

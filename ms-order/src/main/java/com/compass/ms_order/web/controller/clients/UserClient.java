@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "user-services", url = "http://ms-client:8082/api/v1/client")
 public interface UserClient {
 
-
     @GetMapping("/email/{email}")
     ResponseEntity<String> consultEmailUser(@PathVariable String email);
 }

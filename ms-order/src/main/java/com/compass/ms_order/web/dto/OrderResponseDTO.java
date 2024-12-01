@@ -16,6 +16,9 @@ public class OrderResponseDTO {
 
     private Long id;
 
+    @NotBlank(message = "the protocol can't be null")
+    private String protocol;
+
     @Email
     @NotBlank(message = "the email address can't be null")
     private String clientEmail;
