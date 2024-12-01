@@ -3,6 +3,7 @@ package com.compass.ms_order.services;
 import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.entities.Product;
 import com.compass.ms_order.exeptions.EntityNotFoundException;
+import com.compass.ms_order.repositories.OrderFunctionsRepository;
 import com.compass.ms_order.repositories.OrderRepository;
 import com.compass.ms_order.repositories.ProductRepository;
 import com.compass.ms_order.web.controller.clients.StockClient;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Service
 @Log4j2
-public class OrderServices {
+public class OrderServices implements OrderFunctionsRepository {
 
     private final StockClient stockClient;
     private final UserClient userClient;
@@ -82,7 +83,7 @@ public class OrderServices {
         return OrderMapper.toDto(update);
     }
 
-    public List<OrderResponseDTO> findAllOrderByEmail(String email) {
+    public List<OrderResponseDTO> findAllOrdersByEmail(String email) {
         userClient.consultEmailUser(email);
         List<Order> orders = repo.findOrderByClientEmail(email.toLowerCase());
         log.info(orders);

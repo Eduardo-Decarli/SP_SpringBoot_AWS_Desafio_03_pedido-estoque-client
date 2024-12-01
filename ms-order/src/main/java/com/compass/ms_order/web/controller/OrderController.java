@@ -1,6 +1,5 @@
 package com.compass.ms_order.web.controller;
 
-import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.services.OrderServices;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
@@ -33,7 +32,7 @@ public class OrderController {
 
     @GetMapping("historic/byEmail/{email}")
     public ResponseEntity<List<OrderResponseDTO>> findOrdersByEmail(@PathVariable String email) {
-        List<OrderResponseDTO> order = services.findAllOrderByEmail(email);
+        List<OrderResponseDTO> order = services.findAllOrdersByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
