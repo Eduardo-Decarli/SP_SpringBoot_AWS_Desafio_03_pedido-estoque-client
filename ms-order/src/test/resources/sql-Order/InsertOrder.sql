@@ -1,6 +1,6 @@
 
-INSERT INTO orders (email_clients) VALUES ('cristiane@example.com');
-INSERT INTO orders (email_clients) VALUES ('pedro@example.com');
+INSERT INTO orders (email_clients, protocol) VALUES ('cristiane@example.com', '123');
+INSERT INTO orders (email_clients, protocol) VALUES ('pedro@example.com', '321');
 
 INSERT INTO product (order_id, name, quantity) VALUES (1, 'Smartphone', 10);
 INSERT INTO product (order_id, name, quantity) VALUES (1, 'Teclado', 5);

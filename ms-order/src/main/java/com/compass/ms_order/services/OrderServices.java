@@ -13,13 +13,16 @@ import com.compass.ms_order.web.dto.ProductResponseDTO;
 import com.compass.ms_order.web.dto.mapper.OrderMapper;
 import com.compass.ms_order.web.dto.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
+@Log4j2
 public class OrderServices {
 
     private final StockClient stockClient;
@@ -36,6 +39,8 @@ public class OrderServices {
                 stockClient.removeQuantity(correntProduct.getQuantity(), correntProduct.getName());
                 correntProduct.setOrder(create);
             }
+
+            create.setProtocol(UUID.randomUUID().toString());
             create = repo.save(create);
             return OrderMapper.toDto(create);
     }
@@ -76,8 +81,9 @@ public class OrderServices {
     }
 
     public List<OrderResponseDTO> findAllOrderByEmail(String email) {
-        userClient.consultEmailUser(email);
+        userClient.consultEmailUser(email.toUpperCase());
         List<Order> orders = repo.findOrderByClientEmail(email);
+        log.info(orders);
         if(orders.isEmpty()) {
             throw new EntityNotFoundException("No requests were registered for the requested user");
         }

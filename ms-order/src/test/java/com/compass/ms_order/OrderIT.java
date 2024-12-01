@@ -1,5 +1,7 @@
 package com.compass.ms_order;
 
+import com.compass.ms_order.entities.Order;
+import com.compass.ms_order.entities.Product;
 import com.compass.ms_order.exeptions.handler.ErrorMessage;
 import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
@@ -41,10 +43,14 @@ class OrderIT {
 	@Test
 	public void createClient_WithValidData_ReturnsStatus201() {
 
-		List<ProductCreateDTO> productList = List.of(new ProductCreateDTO( "Computador", 1));
+		Order order = new Order();
+		order.setClientEmail("RODRIGO.SILVA@GMAIL.COM");
+		order.setProtocol("12345");
+
+		List<Product> productList = List.of(new Product(null, order, "Computer", 1));
 
 		Mockito.when(userClient.consultEmailUser("RODRIGO.SILVA@GMAIL.COM")).thenReturn(ResponseEntity.ok(RESPONSE_CLIENT));
-		Mockito.when(stockClient.findProductByName("Computador")).thenReturn(ResponseEntity.ok(RESPONSE_STOCK_NAME));
+		Mockito.when(stockClient.findProductByName("Computer")).thenReturn(ResponseEntity.ok(RESPONSE_STOCK_NAME));
 
 		OrderResponseDTO responseBody = testClient
 				.post()
@@ -58,17 +64,21 @@ class OrderIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getClientEmail()).isEqualTo("RODRIGO.SILVA@GMAIL.COM");
-		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Computador");
+		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Computer");
 		assertThat(responseBody.getProducts().getFirst().getQuantity()).isEqualTo(1);
 	}
 
 	@Test
 	public void updateClient_WithValidData_ReturnsStatus201() {
 
-		List<ProductCreateDTO> productList = List.of(new ProductCreateDTO( "Computador", 1));
+		Order order = new Order();
+		order.setClientEmail("RODRIGO.SILVA@GMAIL.COM");
+		order.setProtocol("12345");
+
+		List<Product> productList = List.of(new Product(null, order, "Computer", 1));
 
 		Mockito.when(userClient.consultEmailUser("RODRIGO.SILVA@GMAIL.COM")).thenReturn(ResponseEntity.ok(RESPONSE_CLIENT));
-		Mockito.when(stockClient.findProductByName("Computador")).thenReturn(ResponseEntity.ok(RESPONSE_STOCK_NAME));
+		Mockito.when(stockClient.findProductByName("Computer")).thenReturn(ResponseEntity.ok(RESPONSE_STOCK_NAME));
 
 		OrderResponseDTO responseBody = testClient
 				.put()
@@ -82,14 +92,12 @@ class OrderIT {
 
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody.getClientEmail()).isEqualTo("RODRIGO.SILVA@GMAIL.COM");
-		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Computador");
+		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Computer");
 		assertThat(responseBody.getProducts().getFirst().getQuantity()).isEqualTo(1);
 	}
 
 	@Test
 	public void findOrderByEmail_WithValidData_ReturnsStatus200() {
-
-		List<ProductCreateDTO> productList = List.of(new ProductCreateDTO( "Computador", 1));
 
 		Mockito.when(userClient.consultEmailUser("cristiane@example.com")).thenReturn(ResponseEntity.ok(RESPONSE_CLIENT));
 
@@ -109,8 +117,6 @@ class OrderIT {
 
 	@Test
 	public void findOrderByEmail_WithInvalidData_ReturnsStatus404() {
-
-		List<ProductCreateDTO> productList = List.of(new ProductCreateDTO( "Computador", 1));
 
 		Mockito.when(userClient.consultEmailUser("leandro@example.com")).thenReturn(ResponseEntity.ok(NOTFOUND_EXCEPTION));
 
