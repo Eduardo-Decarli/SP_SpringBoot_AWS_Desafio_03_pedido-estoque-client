@@ -1,6 +1,5 @@
 package com.compass.ms_order.web.controller;
 
-import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.services.OrderServices;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
@@ -31,9 +30,15 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
-    @GetMapping("historic/{email}")
+    @GetMapping("historic/byEmail/{email}")
     public ResponseEntity<List<OrderResponseDTO>> findOrdersByEmail(@PathVariable String email) {
-        List<OrderResponseDTO> order = services.findAllOrderByEmail(email);
+        List<OrderResponseDTO> order = services.findAllOrdersByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
+    }
+
+    @GetMapping("historic/byProtocol/{protocol}")
+    public ResponseEntity<OrderResponseDTO> findOrderByProtocol(@PathVariable String protocol) {
+        OrderResponseDTO order = services.findOrderByProtocol(protocol);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 

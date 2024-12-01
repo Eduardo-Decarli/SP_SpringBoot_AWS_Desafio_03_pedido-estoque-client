@@ -4,6 +4,7 @@ import com.compass.ms_stock.entities.Product;
 import com.compass.ms_stock.exceptions.DataUniqueViolationException;
 import com.compass.ms_stock.exceptions.EntityNotFoundException;
 import com.compass.ms_stock.exceptions.ErrorQuantityBelowZero;
+import com.compass.ms_stock.repositories.StockFunctionsRepository;
 import com.compass.ms_stock.repositories.StockRepository;
 import com.compass.ms_stock.web.controller.dto.ProductCreateDTO;
 import com.compass.ms_stock.web.controller.dto.ProductResponseDTO;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 @Log4j2
-public class StockService {
+public class StockService implements StockFunctionsRepository {
 
     private final StockRepository repo;
 

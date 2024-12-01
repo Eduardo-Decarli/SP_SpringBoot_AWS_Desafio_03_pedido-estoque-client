@@ -20,6 +20,9 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String protocol;
+
     @Email
     @Column(name = "email_clients")
     private String clientEmail;

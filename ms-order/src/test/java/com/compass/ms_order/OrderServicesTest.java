@@ -9,7 +9,6 @@ import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
-import com.compass.ms_order.web.dto.ProductCreateDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,10 +41,14 @@ class OrderServicesTest {
     @Test
     @DisplayName("Should create a Order with successfully")
     void shouldCreateAOrder() {
-        List<ProductCreateDTO> productList = List.of(new ProductCreateDTO("Computer", 1));
-        Order order = new Order(1L, "rodrigo@example.com", List.of(new Product(null, null, "Computer", 1)));
-        OrderCreateDTO createDTO = new OrderCreateDTO(order.getClientEmail(), productList);
-        when(repository.save(any(Order.class))).thenReturn(order);
+        Order order = new Order();
+        order.setClientEmail("RODRIGO.SILVA@GMAIL.COM");
+        order.setProtocol("12345");
+
+        List<Product> productList = List.of(new Product(null, order, "Computer", 1));
+        Order returnOrder = new Order(1L, null,"rodrigo@example.com", List.of(new Product(null, null, "Computer", 1)));
+        OrderCreateDTO createDTO = new OrderCreateDTO(returnOrder.getClientEmail(), productList);
+        when(repository.save(any(Order.class))).thenReturn(returnOrder);
 
         OrderResponseDTO response = services.createOrder(createDTO);
 
@@ -58,9 +61,13 @@ class OrderServicesTest {
     @Test
     @DisplayName("Should throw Exception when data not found")
     void createOrderCase2() {
-        List<ProductCreateDTO> productList = List.of(new ProductCreateDTO("Computer", 1));
-        Order order = new Order(1L, "rodrigo@example.com", List.of(new Product(null, null, "Computer", 1)));
-        OrderCreateDTO createDTO = new OrderCreateDTO(order.getClientEmail(), productList);
+        Order order = new Order();
+        order.setClientEmail("RODRIGO.SILVA@GMAIL.COM");
+        order.setProtocol("12345");
+
+        List<Product> productList = List.of(new Product(null, order, "Computer", 1));
+        Order returnOrder = new Order(1L, null, "rodrigo@example.com", List.of(new Product(null, null, "Computer", 1)));
+        OrderCreateDTO createDTO = new OrderCreateDTO(returnOrder.getClientEmail(), productList);
 
         when(userClient.consultEmailUser(any())).thenThrow(EntityNotFoundException.class);
 
@@ -70,9 +77,13 @@ class OrderServicesTest {
     @Test
     @DisplayName("Should update a Order with successfully")
     void shouldUpdateOrderCase1() {
-        List<ProductCreateDTO> productList = List.of(new ProductCreateDTO("Computer", 1));
-        Order existingOrder = new Order(1L, "rodrigo@example.com", List.of(new Product(1L, null, "Computer", 1)));
-        Order updatedOrder = new Order(1L, "Carlos@example.com", List.of(new Product(1L, null, "Computer", 1)));
+        Order order = new Order();
+        order.setClientEmail("RODRIGO.SILVA@GMAIL.COM");
+        order.setProtocol("12345");
+
+        List<Product> productList = List.of(new Product(null, order, "Computer", 1));
+        Order existingOrder = new Order(1L, null, "rodrigo@example.com", List.of(new Product(1L, null, "Computer", 1)));
+        Order updatedOrder = new Order(1L, null, "Carlos@example.com", List.of(new Product(1L, null, "Computer", 1)));
         OrderCreateDTO createDTO = new OrderCreateDTO("Carlos@example.com", productList);
 
         when(repository.save(any(Order.class))).thenReturn(updatedOrder);
@@ -90,7 +101,7 @@ class OrderServicesTest {
     @DisplayName("Should return a Order by id with successfully")
     void findOrderByIdCase1() {
         List<Product> productList = List.of(new Product(1L, null, "Computer", 1));
-        Order existingProduct = new Order(1L, "rodrigo@example.com", productList);
+        Order existingProduct = new Order(1L, null, "rodrigo@example.com", productList);
 
         when(repository.findById(any(Long.class))).thenReturn(Optional.of(existingProduct));
 

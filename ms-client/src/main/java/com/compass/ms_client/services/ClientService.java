@@ -3,6 +3,7 @@ package com.compass.ms_client.services;
 import com.compass.ms_client.entities.Client;
 import com.compass.ms_client.exceptions.DataUniqueViolationException;
 import com.compass.ms_client.exceptions.EntityNotFoundException;
+import com.compass.ms_client.repositories.ClientFunctionsRepository;
 import com.compass.ms_client.repositories.ClientRepository;
 import com.compass.ms_client.web.dto.ClientCreateDTO;
 import com.compass.ms_client.web.dto.ClientResponseDTO;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Log4j2
-public class ClientService {
+public class ClientService implements ClientFunctionsRepository {
 
     private final ClientRepository repo;
 
