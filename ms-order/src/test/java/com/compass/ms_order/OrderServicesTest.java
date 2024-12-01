@@ -9,8 +9,6 @@ import com.compass.ms_order.web.controller.clients.StockClient;
 import com.compass.ms_order.web.controller.clients.UserClient;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
-import com.compass.ms_order.web.dto.ProductCreateDTO;
-import com.compass.ms_order.web.dto.mapper.ProductMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

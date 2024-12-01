@@ -31,9 +31,15 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
-    @GetMapping("historic/{email}")
+    @GetMapping("historic/byEmail/{email}")
     public ResponseEntity<List<OrderResponseDTO>> findOrdersByEmail(@PathVariable String email) {
         List<OrderResponseDTO> order = services.findAllOrderByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
+    }
+
+    @GetMapping("historic/byProtocol/{protocol}")
+    public ResponseEntity<OrderResponseDTO> findOrderByProtocol(@PathVariable String protocol) {
+        OrderResponseDTO order = services.findOrderByProtocol(protocol);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 

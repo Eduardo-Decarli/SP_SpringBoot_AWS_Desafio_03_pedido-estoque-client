@@ -40,6 +40,7 @@ public class OrderServices {
                 correntProduct.setOrder(create);
             }
 
+            create.setClientEmail(create.getClientEmail().toLowerCase());
             create.setProtocol(UUID.randomUUID().toString());
             create = repo.save(create);
             return OrderMapper.toDto(create);
@@ -76,13 +77,14 @@ public class OrderServices {
         }
 
         currentOrder.setProducts(updatedProducts);
+        currentOrder.setClientEmail(currentOrder.getClientEmail().toLowerCase());
         update = repo.save(currentOrder);
         return OrderMapper.toDto(update);
     }
 
     public List<OrderResponseDTO> findAllOrderByEmail(String email) {
-        userClient.consultEmailUser(email.toUpperCase());
-        List<Order> orders = repo.findOrderByClientEmail(email);
+        userClient.consultEmailUser(email);
+        List<Order> orders = repo.findOrderByClientEmail(email.toLowerCase());
         log.info(orders);
         if(orders.isEmpty()) {
             throw new EntityNotFoundException("No requests were registered for the requested user");
@@ -104,4 +106,11 @@ public class OrderServices {
         return ProductMapper.toDto(product);
     }
 
+    public OrderResponseDTO findOrderByProtocol(String protocol) {
+        Order order = repo.findOrderByProtocol(protocol);
+        if(order == null) {
+            throw new EntityNotFoundException("Order by protocol not found");
+        }
+        return OrderMapper.toDto(order);
+    }
 }
