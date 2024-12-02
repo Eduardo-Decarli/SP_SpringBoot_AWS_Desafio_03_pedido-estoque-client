@@ -2,13 +2,11 @@ name: Build Maven for Target
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -19,5 +17,15 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+
+    - name: Build with Maven ms-client
+      working-directory: ./ms-client
+      run: mvn clean package
+
+    - name: Build with Maven ms-order
+      working-directory: ./ms-order
+      run: mvn clean package
+
+    - name: Build with Maven ms-stock
+      working-directory: ./ms-stock
       run: mvn clean package
