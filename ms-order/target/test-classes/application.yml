@@ -1,8 +1,0 @@
-# H2 CONFIG
-
-spring:
-  jpa:
-    show-sql: true
-  properties:
-    hibernate:
-      format_sql: false
