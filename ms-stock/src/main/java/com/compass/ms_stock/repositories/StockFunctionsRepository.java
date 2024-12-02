@@ -14,4 +14,5 @@ public interface StockFunctionsRepository {
     ProductResponseDTO updateProductInStock(ProductCreateDTO update, Long id);
     ProductResponseDTO removeQuantityByName(Integer quantity, String name);
     ProductResponseDTO addQuantityByName(Integer quantity, String name);
+    void deleteById(Long id);
 }

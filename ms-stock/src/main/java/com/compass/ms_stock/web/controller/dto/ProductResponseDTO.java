@@ -11,6 +11,8 @@ import lombok.Setter;
 @Getter @Setter
 public class ProductResponseDTO {
 
+    private Long id;
+
     @NotBlank(message = "The product's name can't be null")
     private String name;
 

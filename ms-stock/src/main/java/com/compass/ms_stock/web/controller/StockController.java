@@ -65,4 +65,10 @@ public class StockController {
         ProductResponseDTO response = stockService.addQuantityByName(quantity, name);
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteProductById(@PathVariable Long id) {
+        stockService.deleteById(id);
+        return ResponseEntity.ok().body("Successfully deleted");
+    }
 }
