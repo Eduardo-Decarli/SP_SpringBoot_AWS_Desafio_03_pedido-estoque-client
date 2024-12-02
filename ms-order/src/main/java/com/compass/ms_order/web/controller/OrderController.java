@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/order")
@@ -21,12 +24,16 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderCreateDTO create) {
         OrderResponseDTO order = services.createOrder(create);
+        order.add(linkTo(methodOn(OrderController.class).findOrdersById(order.getId())).withRel("find your product by id"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your product by protocol"));
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
     @PutMapping("update/{id}")
     public ResponseEntity<OrderResponseDTO> updateOrder(@RequestBody OrderCreateDTO update, @PathVariable Long id) {
         OrderResponseDTO order = services.updateOrderById(update, id);
+        order.add(linkTo(methodOn(OrderController.class).findOrdersById(order.getId())).withRel("find your product by id"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your product by protocol"));
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
@@ -43,7 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("product/{id}")
-    public ResponseEntity<ProductResponseDTO> findOrdersByEmail(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDTO> findOrdersById(@PathVariable Long id) {
         ProductResponseDTO product = services.findProductById(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
