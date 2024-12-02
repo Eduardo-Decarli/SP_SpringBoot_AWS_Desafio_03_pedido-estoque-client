@@ -1,0 +1,14 @@
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\entities\Product.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\exceptions\DataUniqueViolationException.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\exceptions\EntityNotFoundException.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\exceptions\ErrorQuantityBelowZero.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\exceptions\handler\ErrorMessage.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\exceptions\handler\GlobalExceptionsHandler.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\MsStockApplication.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\repositories\StockFunctionsRepository.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\repositories\StockRepository.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\services\StockService.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\web\controller\dto\mapper\StockMapper.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\web\controller\dto\ProductCreateDTO.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\web\controller\dto\ProductResponseDTO.java
+C:\Users\decar\OneDrive\Documentos\Programação\Serviço de Pedidos\ms-stock\src\main\java\com\compass\ms_stock\web\controller\StockController.java
