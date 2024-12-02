@@ -185,6 +185,21 @@ class OrderIT {
 		assertThat(responseBody.getQuantity()).isEqualTo(10);
 	}
 
+	@Test
+	public void deleteProductById_WithValidData_ReturnsStatus200() {
+
+		String responseBody = testClient
+				.delete()
+				.uri("/api/v1/order/3")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(String.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody).isEqualTo("Deleted successfully");
+	}
+
 
 
 
