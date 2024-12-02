@@ -114,4 +114,9 @@ public class OrderServices implements OrderFunctionsRepository {
         }
         return OrderMapper.toDto(order);
     }
+
+    public void deleteOrderById(Long id) {
+        findOrderById(id);
+        repo.deleteById(id);
+    }
 }

@@ -54,4 +54,10 @@ public class OrderController {
         ProductResponseDTO product = services.findProductById(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOrderById(@PathVariable Long id) {
+        services.deleteOrderById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
+    }
 }
