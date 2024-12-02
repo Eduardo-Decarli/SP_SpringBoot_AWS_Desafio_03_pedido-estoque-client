@@ -93,4 +93,9 @@ public class StockService implements StockFunctionsRepository {
         product = repo.save(product);
         return StockMapper.toDto(product);
     }
+
+    public void deleteById(Long id) {
+        findProductById(id);
+        repo.deleteById(id);
+    }
 }
