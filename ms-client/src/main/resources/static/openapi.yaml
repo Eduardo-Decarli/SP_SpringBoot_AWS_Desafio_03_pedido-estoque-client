@@ -1,7 +1,8 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
+  title: ms-client API
+  description: API for managing clients.
+  version: 1.0
 servers:
   - url: http://localhost:8082
     description: Generated server url
@@ -9,7 +10,7 @@ paths:
   /api/v1/client/{id}:
     get:
       tags:
-        - client-controller
+        - Client API
       summary: Find a user by ID
       description: Retrieve a user's data by their unique ID.
       operationId: findClientById
@@ -24,18 +25,18 @@ paths:
         '200':
           description: User found successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
           description: User not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
     put:
       tags:
-        - client-controller
+        - Client API
       summary: Update a user by ID
       description: Update an existing user's data using their unique ID.
       operationId: updateClientById
@@ -56,24 +57,24 @@ paths:
         '200':
           description: User updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '400':
           description: Invalid request payload
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
           description: User not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
     delete:
       tags:
-        - client-controller
+        - Client API
       summary: Delete a user by ID
       description: Delete a user from the system using their unique ID.
       operationId: deleteClientById
@@ -88,19 +89,19 @@ paths:
         '200':
           description: User deleted successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
         '404':
           description: User not found
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
   /api/v1/client/email/{email}:
     get:
       tags:
-        - client-controller
+        - Client API
       summary: Find a user by email
       description: Retrieve a user's data using their email
       operationId: findClientByEmail
@@ -114,18 +115,18 @@ paths:
         '200':
           description: User found successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
           description: User not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
     put:
       tags:
-        - client-controller
+        - Client API
       summary: Update a user by email
       description: Update an existing user's data using their email
       operationId: updateClientByEmail
@@ -145,25 +146,25 @@ paths:
         '200':
           description: User updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '400':
           description: Invalid request payload
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
           description: User not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
   /api/v1/client:
     get:
       tags:
-        - client-controller
+        - Client API
       summary: Find all clients
       description: Retrieve all users and their data
       operationId: findAllClients
@@ -171,7 +172,7 @@ paths:
         '200':
           description: Users found successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -179,14 +180,14 @@ paths:
         '404':
           description: Users not found
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClientResponseDTO'
     post:
       tags:
-        - client-controller
+        - Client API
       summary: Create a User
       description: Create a new User and save it in the sistem
       operationId: createClient
@@ -200,13 +201,13 @@ paths:
         '201':
           description: User registered sucessful
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '422':
           description: User can't be created by Email
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
 components:

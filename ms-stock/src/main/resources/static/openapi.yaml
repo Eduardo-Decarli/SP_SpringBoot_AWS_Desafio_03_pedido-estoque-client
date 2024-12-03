@@ -1,7 +1,8 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
+  title: ms-stock API
+  description: API for managing stock.
+  version: 1.0
 servers:
   - url: http://localhost:8080
     description: Generated server url
@@ -33,13 +34,13 @@ paths:
         '201':
           description: Product successfully updated
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
         '400':
           description: Invalid data
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
   /api/v1/stock:
@@ -53,7 +54,7 @@ paths:
         '200':
           description: List all products successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -61,7 +62,7 @@ paths:
         '404':
           description: Products not found
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
     post:
@@ -80,13 +81,13 @@ paths:
         '201':
           description: Product successfully created
           content:
-            '*/*':
+            application/json:
               schema:
-                type: string
+                type: '#/components/schemas/ProductResponseDTO'
         '400':
           description: Invalid product data
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
   /api/v1/stock/quantity/remove/{quantity}/{name}:
@@ -112,19 +113,19 @@ paths:
         '200':
           description: Quantity removed successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
         '400':
           description: Invalid data
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
         '404':
           description: Product not found
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
   /api/v1/stock/quantity/add/{quantity}/{name}:
@@ -150,13 +151,13 @@ paths:
         '200':
           description: Quantity added successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
         '404':
           description: Product not found
           content:
-            '*/*':
+            application/json:
               schema:
                 type: string
   /api/v1/stock/product/name/{name}:
@@ -177,13 +178,13 @@ paths:
         '200':
           description: Product retrieved successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDTO'
         '404':
           description: Product not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDTO'
   /api/v1/stock/product/id/{id}:
@@ -205,13 +206,13 @@ paths:
         '200':
           description: Product retrieved successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDTO'
         '404':
           description: Product not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref:
   /api/v1/stock/product/{id}:
@@ -233,13 +234,13 @@ paths:
         '200':
           description: Product deleted successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDTO'
         '404':
           description: Product not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDTO'
 components:
