@@ -1,8 +1,7 @@
 openapi: 3.0.1
 info:
-  title: ms-client API
-  description: API for managing clients.
-  version: 1.0
+  title: OpenAPI definition
+  version: v0
 servers:
   - url: http://localhost:8082
     description: Generated server url
@@ -10,9 +9,8 @@ paths:
   /api/v1/client/{id}:
     get:
       tags:
-        - Client API
-      summary: Find a user by ID
-      description: Retrieve a user's data by their unique ID.
+        - client-controller
+      summary: Get client by ID
       operationId: findClientById
       parameters:
         - name: id
@@ -23,22 +21,21 @@ paths:
             format: int64
       responses:
         '200':
-          description: User found successfully
+          description: Client found by ID
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
-          description: User not found
+          description: Client not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
     put:
       tags:
-        - Client API
-      summary: Update a user by ID
-      description: Update an existing user's data using their unique ID.
+        - client-controller
+      summary: Update client by ID
       operationId: updateClientById
       parameters:
         - name: id
@@ -55,28 +52,27 @@ paths:
         required: true
       responses:
         '200':
-          description: User updated successfully
+          description: Client updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '400':
-          description: Invalid request payload
+          description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
         '404':
-          description: User not found
+          description: Client not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
-        - Client API
-      summary: Delete a user by ID
-      description: Delete a user from the system using their unique ID.
+        - client-controller
+      summary: Delete client by ID
       operationId: deleteClientById
       parameters:
         - name: id
@@ -87,23 +83,22 @@ paths:
             format: int64
       responses:
         '200':
-          description: User deleted successfully
+          description: Client deleted successfully
           content:
-            application/json:
+            '*/*':
               schema:
                 type: string
         '404':
-          description: User not found
+          description: Client not found
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorMessage'
   /api/v1/client/email/{email}:
     get:
       tags:
-        - Client API
-      summary: Find a user by email
-      description: Retrieve a user's data using their email
+        - client-controller
+      summary: Get client by email
       operationId: findClientByEmail
       parameters:
         - name: email
@@ -113,22 +108,21 @@ paths:
             type: string
       responses:
         '200':
-          description: User found successfully
+          description: Client found by email
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '404':
-          description: User not found
+          description: Client not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
     put:
       tags:
-        - Client API
-      summary: Update a user by email
-      description: Update an existing user's data using their email
+        - client-controller
+      summary: Update client by email
       operationId: updateClientByEmail
       parameters:
         - name: email
@@ -144,52 +138,46 @@ paths:
         required: true
       responses:
         '200':
-          description: User updated successfully
+          description: Client updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
         '400':
-          description: Invalid request payload
+          description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
         '404':
-          description: User not found
+          description: Client not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
   /api/v1/client:
     get:
       tags:
-        - Client API
-      summary: Find all clients
-      description: Retrieve all users and their data
+        - client-controller
+      summary: Get all clients
       operationId: findAllClients
       responses:
         '200':
-          description: Users found successfully
+          description: List of clients
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ClientResponseDTO'
         '404':
-          description: Users not found
+          description: List not found
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
     post:
       tags:
-        - Client API
-      summary: Create a User
-      description: Create a new User and save it in the sistem
+        - client-controller
+      summary: Create a new client
       operationId: createClient
       requestBody:
         content:
@@ -199,30 +187,82 @@ paths:
         required: true
       responses:
         '201':
-          description: User registered sucessful
+          description: Client created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponseDTO'
-        '422':
-          description: User can't be created by Email
+        '400':
+          description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
+                $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ClientCreateDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
     ClientResponseDTO:
+      required:
+        - email
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Link'
+    ErrorMessage:
+      type: object
+      properties:
+        path:
+          type: string
+        method:
+          type: string
+        status:
+          type: integer
+          format: int32
+        statusText:
+          type: string
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+    ClientCreateDTO:
+      required:
+        - email
+        - name
       type: object
       properties:
         name:
           type: string
         email:
           type: string
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        hreflang:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
+        templated:
+          type: boolean

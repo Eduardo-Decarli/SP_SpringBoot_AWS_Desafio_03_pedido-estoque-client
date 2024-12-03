@@ -1,11 +1,15 @@
 package com.compass.ms_stock.web.controller;
 
 import com.compass.ms_stock.entities.Product;
+import com.compass.ms_stock.exceptions.handler.ErrorMessage;
 import com.compass.ms_stock.services.StockService;
 import com.compass.ms_stock.web.controller.dto.ProductCreateDTO;
 import com.compass.ms_stock.web.controller.dto.ProductResponseDTO;
 import com.compass.ms_stock.web.controller.dto.mapper.StockMapper;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +25,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/v1/stock")
 @AllArgsConstructor
-@Tag(name = "Stock API", description = "API for managing product stock")
 @Validated
 public class StockController {
 
