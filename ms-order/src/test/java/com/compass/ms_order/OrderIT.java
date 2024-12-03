@@ -8,6 +8,7 @@ import com.compass.ms_order.web.controller.clients.UserClient;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
 import com.compass.ms_order.web.dto.ProductResponseDTO;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -25,6 +26,7 @@ import java.util.List;
 import static com.compass.ms_order.UsedVariable.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@Log4j2
 @Sql(scripts = "/sql-Order/InsertOrder.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/sql-Order/DeleteOrder.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -185,7 +187,35 @@ class OrderIT {
 		assertThat(responseBody.getQuantity()).isEqualTo(10);
 	}
 
+	@Test
+	public void findOrderById_WithValidData_ReturnsStatus200() {
 
+		OrderResponseDTO responseBody = testClient
+				.get()
+				.uri("/api/v1/order/historic/byId/1")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(OrderResponseDTO.class)
+				.returnResult().getResponseBody();
 
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getId()).isEqualTo(1);
+		assertThat(responseBody.getClientEmail()).isEqualTo("cristiane@example.com");
+		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Smartphone");
+	}
 
+	@Test
+	public void deleteProductById_WithValidData_ReturnsStatus200() {
+
+		String responseBody = testClient
+				.delete()
+				.uri("/api/v1/order/3")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(String.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody).isEqualTo("Deleted successfully");
+	}
 }

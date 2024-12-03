@@ -23,11 +23,12 @@ public class ClientService implements ClientFunctionsRepository {
 
     public ClientResponseDTO createClient(ClientCreateDTO create) {
         if(repo.findByEmail(create.getEmail().toUpperCase()) != null) {
+            log.error("the client already exist in system, error DataUniqueViolationException");
             throw new DataUniqueViolationException("There is already a email registered");
         }
         Client client = ClientMapper.toClient(create);
         client.setEmail(client.getEmail().toUpperCase());
-        log.info("creating a client");
+        log.info("creating a client: " + client);
         client = repo.save(client);
         return ClientMapper.toDto(client);
     }
@@ -35,8 +36,10 @@ public class ClientService implements ClientFunctionsRepository {
     public List<ClientResponseDTO> findAllClients() {
         List<Client> clients = repo.findAll();
         if(clients.isEmpty()) {
+            log.error("There was not found clients in the system");
             throw new EntityNotFoundException("There are not users in the system");
         }
+        log.info("Finding all clients in the system");
         return ClientMapper.toListDTO(clients);
     }
 
@@ -44,28 +47,31 @@ public class ClientService implements ClientFunctionsRepository {
         Client client = repo.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("error: not found client by id " + id)
         );
-        log.info("finding a client by id");
+        log.info("finding a client by id: " + client);
         return client;
     }
 
     public Client findClientByEmail(String email) {
-        log.info("finding a client by email");
+
         Client client = repo.findByEmail(email.toUpperCase());
         if(client == null) {
+            log.error("error: not found client by email: " + email);
             throw new EntityNotFoundException("error: not found client by email " + email);
         }
+        log.info("finding a client by email: " + client);
         return client;
     }
 
     public ClientResponseDTO updateClientById(ClientCreateDTO update, Long id) {
         Client correntClient = findClientById(id);
         if(repo.findByEmail(update.getEmail().toUpperCase()) != null && !(update.getEmail().equalsIgnoreCase(correntClient.getEmail()))) {
+            log.error("the client already exist in system, error DataUniqueViolationException");
             throw new DataUniqueViolationException("There is already a client registered with that email");
         }
         correntClient.setName(update.getName());
         correntClient.setEmail(update.getEmail().toUpperCase());
 
-        log.info("updating a client by id");
+        log.info("updating a client by id: " + correntClient);
         Client client = repo.save(correntClient);
         return ClientMapper.toDto(client);
     }
@@ -73,19 +79,20 @@ public class ClientService implements ClientFunctionsRepository {
     public ClientResponseDTO updateClientByEmail(ClientCreateDTO update, String email) {
         Client correntClient = findClientByEmail(email);
         if(repo.findByEmail(update.getEmail().toUpperCase()) != null && !(update.getEmail().equalsIgnoreCase(correntClient.getEmail()))) {
+            log.error("the client already exist in system, error DataUniqueViolationException");
             throw new DataUniqueViolationException("There is already a client registered with that email");
         }
         correntClient.setName(update.getName());
         correntClient.setEmail(update.getEmail().toUpperCase());
 
-        log.info("updating a client by email");
+        log.info("updating a client by email: " + correntClient);
         Client client = repo.save(correntClient);
         return ClientMapper.toDto(client);
     }
 
     public void deleteClientById(Long id) {
         Client client = findClientById(id);
-        log.info("deleting a client");
+        log.info("deleting a client by id: " + id);
         repo.delete(client);
     }
 }

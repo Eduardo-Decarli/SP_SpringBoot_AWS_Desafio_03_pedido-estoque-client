@@ -15,6 +15,9 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/client")
@@ -26,6 +29,8 @@ public class ClientController {
     @PostMapping
     public ResponseEntity<ClientResponseDTO> createClient(@Valid @RequestBody ClientCreateDTO create) {
         ClientResponseDTO client = clientService.createClient(create);
+        client.add(linkTo(methodOn(ClientController.class).findClientById(client.getId())).withRel("find your account by id"));
+        client.add(linkTo(methodOn(ClientController.class).findClientByEmail(client.getEmail())).withRel("find your account by email"));
         return ResponseEntity.status(HttpStatus.CREATED).body(client);
     }
 
@@ -50,12 +55,16 @@ public class ClientController {
     @PutMapping("/{id}")
     public ResponseEntity<ClientResponseDTO> updateClientById(@Valid @RequestBody ClientCreateDTO client, @PathVariable Long id) {
         ClientResponseDTO updatedClient = clientService.updateClientById(client, id);
+        updatedClient.add(linkTo(methodOn(ClientController.class).findClientById(updatedClient.getId())).withRel("find your account by id"));
+        updatedClient.add(linkTo(methodOn(ClientController.class).findClientByEmail(updatedClient.getEmail())).withRel("find your account by email"));
         return ResponseEntity.ok(updatedClient);
     }
 
     @PutMapping("/email/{email}")
     public ResponseEntity<ClientResponseDTO> updateClientByEmail(@Valid @RequestBody ClientCreateDTO client, @PathVariable String email) {
         ClientResponseDTO updatedClient = clientService.updateClientByEmail(client, email);
+        updatedClient.add(linkTo(methodOn(ClientController.class).findClientById(updatedClient.getId())).withRel("find your account by id"));
+        updatedClient.add(linkTo(methodOn(ClientController.class).findClientByEmail(updatedClient.getEmail())).withRel("find your account by email"));
         return ResponseEntity.ok(updatedClient);
     }
 

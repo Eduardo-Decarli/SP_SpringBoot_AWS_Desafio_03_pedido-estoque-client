@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class ProductResponseDTO {
+public class ProductResponseDTO extends RepresentationModel<ProductResponseDTO> implements Serializable {
 
     private Long id;
 
