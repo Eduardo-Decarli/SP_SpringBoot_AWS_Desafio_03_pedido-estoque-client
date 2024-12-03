@@ -112,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Rodrigo\",\r\n    \"email\":\"teste@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Rodrigo\",\r\n    \"email\":\"rodrigo@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -143,7 +143,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Gustavo\",\r\n    \"email\":\"teste@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Gustavo\",\r\n    \"email\":\"gustavo@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -202,7 +202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"refri\",\r\n    \"quantity\": 4\r\n}",
+							"raw": "{\r\n    \"name\":\"computer\",\r\n    \"quantity\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -232,7 +232,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"agua\",\r\n    \"quantity\": 5\r\n}",
+							"raw": "{\r\n    \"name\": \"iphone\",\r\n    \"quantity\": 5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -421,7 +421,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"clientEmail\": \"decarli@gmail.com\",\r\n  \"products\": [\r\n    {\r\n      \"name\": \"REFRI\",\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"clientEmail\": \"eduardo@gmail.com\",\r\n  \"products\": [\r\n    {\r\n      \"name\": \"iphone\",\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -451,7 +451,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"clientEmail\": \"decarli@gmail.com\",\r\n  \"products\": [\r\n    {\r\n      \"name\": \"agua\",\r\n      \"quantity\": 3\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"clientEmail\": \"eduardo@gmail.com\",\r\n  \"products\": [\r\n    {\r\n      \"name\": \"iphone\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

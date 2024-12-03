@@ -1,10 +1,21 @@
 # SP_SpringBoot_AWS_Desafio_03_pedido-estoque-client
 
-Nesse projeto, foi desenvolvido um sistema de gerenciamento de pedidos, onde possui 3(três) microsserviços desenvolvidos em ambientes spring com implantação na AWS. O sistema desempenha a criação, gestão e manipulação de dados de estoque, clientes e pedidos.
+In this project, a management system for orders was developed, featuring three (3) microservices built using **Spring** environments and deployed on **AWS**. The system handles the **creation**, **management**, and **manipulation** of data related to **inventory**, **customers**, and **orders**. It includes **GitHub Actions** for build and **testing**, **Swagger** for API documentation, **OpenFeign** for communication between microservices, **dockerizations** of the services, and deployment on **AWS**.
+
+## Estrutura do Projeto
+
+|- ./ms-client
+|- ./ms-stock
+|- ./ms-order
+|- ./Docs
+|- docker-compose
+|- init.sql
+|- Postman_rotes
+|- README.md
 
 ## Rotas
 
-Essas são as rotas do projeto
+These are the routes of the project:
 
 - Client
     - POST - Create Client
@@ -34,16 +45,56 @@ Essas são as rotas do projeto
     - GET - Find Product by ID
     - DELETE - Delete Order by ID
 
+- Swagger
+    - Stock Controller
+        - http://localhost:8080/swagger-ui/index.html
+
+    - Order Controller
+        - http://localhost:8081/swagger-ui/index.html
+        
+    - Client Controller
+        - http://localhost:8082/swagger-ui/index.html
+
 ## Data Flow
 
-1. Realize o git clone do projeto
-2. Com o docker instalado, e na pasta do projeto, realize o comando **docker-compose up -d**.
-3. após os containers terem sido criados, importe o arquivo 
+1. Clone the project repository using **git clone**
+2. With Docker installed, navigate to the project folder and run the command **docker-compose up -d**
+3. After the containers are created, import the **POSTMAN** file from the directory to access the local routes
+4. Create a **client** using the client management route
+5. Create a **product** using the product management route
+6. Create an **order** using the order management route
 
-1. Criar um cliente através da rota de gerenciamento de cliente.
-2. Criar um produto através da rota de gerenciamento de produto.
-3. Criar um Pedido através da rota de gerenciamento de pedidos.
+## Testes
+
+- ms-stock: 94% line coverage
+- ms-client: 99% line coverage
+- ms-order: 83% line coverage
+
+# Tecnologias Utilizadas
+
+- InteliJ
+- VSCode
+- PostMan
+- Git
+- GitHub
+- GitHubAction
+- Java 21
+- SpringFramework
+- SpringBoot
+- SpringBootTest
+- JPA
+- Postgres
+- Hateoas
+- Swagger
+- Log4j2
+- Docker
+- Docker-compose
+- DockerHub
+- AWS
+- EC2
 
 # Video demonstrativo de implantação na AWS
 
-https://youtu.be/mjf6pZ2dJGU
+In this video, I demonstrate the **functionality of the routes**, the deployment on **AWS**, and showcase the **logs** recorded using docker logs.
+
+ - https://youtu.be/mjf6pZ2dJGU
