@@ -8,6 +8,7 @@ import com.compass.ms_order.web.controller.clients.UserClient;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
 import com.compass.ms_order.web.dto.ProductResponseDTO;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -25,6 +26,7 @@ import java.util.List;
 import static com.compass.ms_order.UsedVariable.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@Log4j2
 @Sql(scripts = "/sql-Order/InsertOrder.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/sql-Order/DeleteOrder.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

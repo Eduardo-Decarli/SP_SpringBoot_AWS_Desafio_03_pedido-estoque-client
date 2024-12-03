@@ -3,8 +3,6 @@ package com.compass.ms_order.exeptions.handler;
 
 import com.compass.ms_order.exeptions.EntityNotFoundException;
 import com.compass.ms_order.exeptions.ErrorQuantityBelowZero;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

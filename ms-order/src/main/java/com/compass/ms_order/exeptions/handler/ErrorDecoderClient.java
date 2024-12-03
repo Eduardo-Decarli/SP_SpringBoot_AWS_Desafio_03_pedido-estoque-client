@@ -16,15 +16,17 @@ public class ErrorDecoderClient implements ErrorDecoder {
     log.info("Error Decoder: {}, {}", methodKey, response);
 
     if(methodKey.contains("consultEmailUser")) {
+      log.error("No found a entity, error EntityNotFoundException");
         return new EntityNotFoundException("error: Not found client by email");
     }
     if(methodKey.contains("findProductByName")) {
+      log.error("No found a entity, error EntityNotFoundException");
       return new EntityNotFoundException("error: Not found product by name");
     }
     if(methodKey.contains("removeQuantity")) {
+      log.error("Don't remove quantity in stock product, error ErrorQuantityBelowZero");
       return new ErrorQuantityBelowZero("error: The quantity is not below zero");
     }
-
     return null;
   }
 }

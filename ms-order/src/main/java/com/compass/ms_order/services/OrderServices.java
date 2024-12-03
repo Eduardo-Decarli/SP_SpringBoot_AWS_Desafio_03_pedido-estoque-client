@@ -44,6 +44,7 @@ public class OrderServices implements OrderFunctionsRepository {
             create.setClientEmail(create.getClientEmail().toLowerCase());
             create.setProtocol(UUID.randomUUID().toString());
             create = repo.save(create);
+            log.info("Creating a new Order: " + create);
             return OrderMapper.toDto(create);
     }
 
@@ -80,6 +81,7 @@ public class OrderServices implements OrderFunctionsRepository {
         currentOrder.setProducts(updatedProducts);
         currentOrder.setClientEmail(currentOrder.getClientEmail().toLowerCase());
         update = repo.save(currentOrder);
+        log.info("Updating a Order By id: " + update);
         return OrderMapper.toDto(update);
     }
 
@@ -90,6 +92,7 @@ public class OrderServices implements OrderFunctionsRepository {
         if(orders.isEmpty()) {
             throw new EntityNotFoundException("No requests were registered for the requested user");
         }
+        log.info("Finding a order by email's client: " + email);
         return OrderMapper.toListDTO(orders);
     }
 
@@ -97,6 +100,7 @@ public class OrderServices implements OrderFunctionsRepository {
         Order order = repo.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Order not found by Id")
         );
+        log.info("Finding a order by id: " + order);
         return order;
     }
 
@@ -104,6 +108,7 @@ public class OrderServices implements OrderFunctionsRepository {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Product not found by Id")
         );
+        log.info("Finding a product by id: " + product);
         return ProductMapper.toDto(product);
     }
 
@@ -112,11 +117,13 @@ public class OrderServices implements OrderFunctionsRepository {
         if(order == null) {
             throw new EntityNotFoundException("Order by protocol not found");
         }
+        log.info("Finding a order by protocol: " + order);
         return OrderMapper.toDto(order);
     }
 
     public void deleteOrderById(Long id) {
         findOrderById(id);
+        log.info("Deleting a order by id: " + id);
         repo.deleteById(id);
     }
 }
