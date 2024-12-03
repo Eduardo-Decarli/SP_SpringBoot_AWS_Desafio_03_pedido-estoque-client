@@ -14,4 +14,5 @@ public interface OrderFunctionsRepository {
     Order findOrderById(Long id);
     ProductResponseDTO findProductById(Long id);
     OrderResponseDTO findOrderByProtocol(String protocol);
+    void deleteOrderById(Long id);
 }
