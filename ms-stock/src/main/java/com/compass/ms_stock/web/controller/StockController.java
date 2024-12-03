@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/v1/stock")
 @AllArgsConstructor
@@ -27,6 +30,8 @@ public class StockController {
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductCreateDTO create) {
         ProductResponseDTO response = stockService.createProductInStock(create);
+        response.add(linkTo(methodOn(StockController.class).findProductById(response.getId())).withRel("find your product by id"));
+        response.add(linkTo(methodOn(StockController.class).findProductByName(response.getName())).withRel("find your product by name"));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -57,12 +62,16 @@ public class StockController {
     @GetMapping("/quantity/remove/{quantity}/{name}")
     public ResponseEntity<ProductResponseDTO> removeQuantity(@PathVariable Integer quantity, @PathVariable String name) {
         ProductResponseDTO response = stockService.removeQuantityByName(quantity, name);
+        response.add(linkTo(methodOn(StockController.class).addQuantity(response.getQuantity(), response.getName())).withRel("Add quantity by Name"));
+        response.add(linkTo(methodOn(StockController.class).findProductByName(response.getName())).withRel("find your product by name"));
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/quantity/add/{quantity}/{name}")
     public ResponseEntity<ProductResponseDTO> addQuantity(@PathVariable Integer quantity, @PathVariable String name) {
         ProductResponseDTO response = stockService.addQuantityByName(quantity, name);
+        response.add(linkTo(methodOn(StockController.class).removeQuantity(response.getQuantity(), response.getName())).withRel("Remove quantity by Name"));
+        response.add(linkTo(methodOn(StockController.class).findProductByName(response.getName())).withRel("find your product by name"));
         return ResponseEntity.ok().body(response);
     }
 
