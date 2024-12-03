@@ -1,9 +1,11 @@
 package com.compass.ms_order.web.controller;
 
+import com.compass.ms_order.entities.Order;
 import com.compass.ms_order.services.OrderServices;
 import com.compass.ms_order.web.dto.OrderCreateDTO;
 import com.compass.ms_order.web.dto.OrderResponseDTO;
 import com.compass.ms_order.web.dto.ProductResponseDTO;
+import com.compass.ms_order.web.dto.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +26,16 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderCreateDTO create) {
         OrderResponseDTO order = services.createOrder(create);
-        order.add(linkTo(methodOn(OrderController.class).findOrdersById(order.getId())).withRel("find your product by id"));
-        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your product by protocol"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderById(order.getId())).withRel("find your Order by id"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your order by protocol"));
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
     @PutMapping("update/{id}")
     public ResponseEntity<OrderResponseDTO> updateOrder(@RequestBody OrderCreateDTO update, @PathVariable Long id) {
         OrderResponseDTO order = services.updateOrderById(update, id);
-        order.add(linkTo(methodOn(OrderController.class).findOrdersById(order.getId())).withRel("find your product by id"));
-        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your product by protocol"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderById(order.getId())).withRel("find your Order by id"));
+        order.add(linkTo(methodOn(OrderController.class).findOrderByProtocol(order.getProtocol())).withRel("find your order by protocol"));
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
@@ -49,8 +51,14 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
+    @GetMapping("historic/byId/{id}")
+    public ResponseEntity<OrderResponseDTO> findOrderById(@PathVariable Long id) {
+        Order order = services.findOrderById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(OrderMapper.toDto(order));
+    }
+
     @GetMapping("product/{id}")
-    public ResponseEntity<ProductResponseDTO> findOrdersById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDTO> findProductById(@PathVariable Long id) {
         ProductResponseDTO product = services.findProductById(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }

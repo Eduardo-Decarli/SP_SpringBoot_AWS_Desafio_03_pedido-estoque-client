@@ -59,7 +59,7 @@ paths:
                 $ref: '#/components/schemas/Order'
         '400':
           description: Invalid request
-  /api/v1/order/historic/{email}:
+  /api/v1/order/historic/byEmail/{email}:
     get:
       tags:
         - order-controller

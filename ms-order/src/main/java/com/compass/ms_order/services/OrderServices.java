@@ -13,6 +13,7 @@ import com.compass.ms_order.web.dto.OrderResponseDTO;
 import com.compass.ms_order.web.dto.ProductResponseDTO;
 import com.compass.ms_order.web.dto.mapper.OrderMapper;
 import com.compass.ms_order.web.dto.mapper.ProductMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -48,42 +49,29 @@ public class OrderServices implements OrderFunctionsRepository {
             return OrderMapper.toDto(create);
     }
 
+    @Transactional
     public OrderResponseDTO updateOrderById(OrderCreateDTO updateDTO, Long id) {
-        Order update = OrderMapper.toOrder(updateDTO);
         Order currentOrder = findOrderById(id);
-        userClient.consultEmailUser(update.getClientEmail());
-        currentOrder.setClientEmail(update.getClientEmail());
-        List<Product> updatedProducts = new ArrayList<>();
+        userClient.consultEmailUser(updateDTO.getClientEmail());
+        currentOrder.setClientEmail(updateDTO.getClientEmail().toLowerCase());
 
-        for (Product newProduct : update.getProducts()) {
-            boolean productExists = false;
-            stockClient.findProductByName(newProduct.getName());
-            for (Product existingProduct : currentOrder.getProducts()) {
-                if (existingProduct.getName().equalsIgnoreCase(newProduct.getName())) {
-                    productExists = true;
-
-                    stockClient.addQuantity(existingProduct.getQuantity(), existingProduct.getName());
-                    stockClient.removeQuantity(newProduct.getQuantity(), newProduct.getName());
-
-                    existingProduct.setQuantity(newProduct.getQuantity());
-                    updatedProducts.add(existingProduct);
-                    break;
-                }
-            }
-
-            if (!productExists) {
-                stockClient.removeQuantity(newProduct.getQuantity(), newProduct.getName());
-                newProduct.setOrder(currentOrder);
-                updatedProducts.add(newProduct);
-            }
+        for (Product product : currentOrder.getProducts()) {
+            stockClient.addQuantity(product.getQuantity(), product.getName());
         }
 
+        List<Product> updatedProducts = new ArrayList<>();
+        for (Product newProduct : updateDTO.getProducts()) {
+            stockClient.findProductByName(newProduct.getName());
+            stockClient.removeQuantity(newProduct.getQuantity(), newProduct.getName());
+            newProduct.setOrder(currentOrder);
+            updatedProducts.add(newProduct);
+        }
         currentOrder.setProducts(updatedProducts);
-        currentOrder.setClientEmail(currentOrder.getClientEmail().toLowerCase());
-        update = repo.save(currentOrder);
-        log.info("Updating a Order By id: " + update);
-        return OrderMapper.toDto(update);
+        currentOrder = repo.save(currentOrder);
+        log.info("Order updated successfully: " + currentOrder);
+        return OrderMapper.toDto(currentOrder);
     }
+
 
     public List<OrderResponseDTO> findAllOrdersByEmail(String email) {
         userClient.consultEmailUser(email);

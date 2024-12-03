@@ -188,6 +188,23 @@ class OrderIT {
 	}
 
 	@Test
+	public void findOrderById_WithValidData_ReturnsStatus200() {
+
+		OrderResponseDTO responseBody = testClient
+				.get()
+				.uri("/api/v1/order/historic/byId/1")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(OrderResponseDTO.class)
+				.returnResult().getResponseBody();
+
+		assertThat(responseBody).isNotNull();
+		assertThat(responseBody.getId()).isEqualTo(1);
+		assertThat(responseBody.getClientEmail()).isEqualTo("cristiane@example.com");
+		assertThat(responseBody.getProducts().getFirst().getName()).isEqualTo("Smartphone");
+	}
+
+	@Test
 	public void deleteProductById_WithValidData_ReturnsStatus200() {
 
 		String responseBody = testClient
@@ -201,8 +218,4 @@ class OrderIT {
 		assertThat(responseBody).isNotNull();
 		assertThat(responseBody).isEqualTo("Deleted successfully");
 	}
-
-
-
-
 }
