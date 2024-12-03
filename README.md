@@ -4,13 +4,13 @@ In this project, a management system for orders was developed, featuring three (
 
 ## Estrutura do Projeto
 
-|- ./ms-client
-|- ./ms-stock
-|- ./ms-order
-|- ./Docs
-|- docker-compose
-|- init.sql
-|- Postman_rotes
+|- ./ms-client <br>
+|- ./ms-stock <br>
+|- ./ms-order <br>
+|- ./Docs <br>
+|- docker-compose <br>
+|- init.sql <br>
+|- Postman_rotes <br>
 |- README.md
 
 ## Rotas
